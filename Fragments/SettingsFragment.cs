@@ -59,7 +59,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
             if (PreferenceScreen.FindPreference("devicesWithNotchesAllowFullScreen") is CheckBoxPreference checkboxDevicesWithNotchesAllFullScreen)
             {
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
+                if (OperatingSystem.IsAndroidVersionAtLeast(29))  //if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
                     checkboxDevicesWithNotchesAllFullScreen.PreferenceChange += CheckboxDevicesWithNotchesAllFullScreen_PreferenceChange;
                 else
                     checkboxDevicesWithNotchesAllFullScreen.Enabled = false;
