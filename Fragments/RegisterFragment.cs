@@ -1,4 +1,6 @@
-﻿using Android.OS;
+﻿using Android.Content;
+using Android.OS;
+using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.View;
@@ -25,10 +27,10 @@ namespace com.companyname.navigationgraph7net7.Fragments
     // AddMenuProvider is based on LifeCycle therefore it is only applicable while this fragment is visible. 
     // Any fragment that doesn't require a menu then doesn't implement the IMenuProvider
 
-    public class RegisterFragment : Fragment, IMenuProvider 
+    public class RegisterFragment : Fragment, IMenuProvider
     {
         private NavFragmentOnBackPressedCallback? onBackPressedCallback;
-       
+
         public RegisterFragment() { }
 
         #region OnCreateView
@@ -37,7 +39,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
             View? view = inflater.Inflate(Resource.Layout.fragment_register, container, false);
             TextView? textView = view!.FindViewById<TextView>(Resource.Id.text_register);
             textView!.Text = "This is the Register fragment";
-            
+
             // New with release of Xamarin.AndroidX.Navigation.Fragment 2.5.1
             //IMenuHost menuHost = RequireActivity();
             //menuHost.AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed);
@@ -61,9 +63,13 @@ namespace com.companyname.navigationgraph7net7.Fragments
             switch (menuItem.ItemId)
             {
                 case Resource.Id.action_register_fragment:
+
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                    Toast.MakeText(Activity, text: "You selected the Register menu item.", ToastLength.Long).Show();
+                    //Toast.MakeText(Activity, Resources.GetString(Resource.String.toast_message), ToastLength.Long).Show();
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
+
+                    Toast? toast = Toast.MakeText(Activity!, Resources.GetString(Resource.String.toast_message), ToastLength.Long);
+                    toast!.Show();
 
                     return true;
 
@@ -102,10 +108,10 @@ namespace com.companyname.navigationgraph7net7.Fragments
             onBackPressedCallback!.Enabled = false;
 
             NavController navController = Navigation.FindNavController(Activity!, Resource.Id.nav_host);
-            
+
             // Navigate back to the SlideShowFragment
             navController.PopBackStack(Resource.Id.slideshow_fragment, false);
-            
+
             navController.Navigate(Resource.Id.slideshow_fragment, null, navOptions);
         }
         #endregion

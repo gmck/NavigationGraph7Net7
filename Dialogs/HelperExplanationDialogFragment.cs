@@ -122,8 +122,8 @@ namespace com.companyname.navigationgraph7net7.Dialogs
         {
             base.OnStart();
 
-            BottomSheetBehavior? bottomSheetBehavior = BottomSheetBehavior.From((View)view!.Parent!); 
-            //BottomSheetBehavior? bottomSheetBehavior = BottomSheetBehavior.From(view: view!.Parent as View);
+            BottomSheetBehavior? bottomSheetBehavior = BottomSheetBehavior.From((View)view!.Parent!); //OK
+            //BottomSheetBehavior? bottomSheetBehavior = BottomSheetBehavior.From(view!.Parent is View);// Crashed at runtime
 
             Configuration configuration = Activity!.Resources!.Configuration!;
             if (configuration.Orientation == Android.Content.Res.Orientation.Landscape && configuration.ScreenWidthDp > 450)

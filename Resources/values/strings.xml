@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">NavigationGraph7Net7</string>
-    <!--<string name="app_text">Hello, Android!</string>-->
+	<string name="app_name">NavigationGraph7Net7</string>
+	<!--<string name="app_text">Hello, Android!</string>-->
 
 	<!--<string name="app_name">NavigationGraph 7</string>-->
 	<string name="navigation_header_title">Android Navigator</string>
@@ -87,7 +87,7 @@
 	<string name="widgets_button">Button</string>
 	<!--Widgets Fragment-->
 
-
+	<string name="toast_message">You selected the Register menu item.</string>
 	<string name="dont_show_again">Don\'t show this message again</string>
 	<!--Deliberately shortend this message-->
 	<string name="subscription_explanation_text_short">
@@ -101,4 +101,6 @@
 		\n\nGoogle servers store Subscription date information in UTC format, we convert those dates to your local datetime format.
 		\n\nFor a full discussion re the latest Google Play Subscription features and an example screenshot please refer to our User Guide.
 	</string>
+
+	
 </resources>

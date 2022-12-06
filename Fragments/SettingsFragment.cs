@@ -47,7 +47,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
             if (PreferenceScreen.FindPreference("use_dynamic_colors") is CheckBoxPreference checkboxDynamicColors)
             {
-                if (OperatingSystem.IsAndroidVersionAtLeast(31)) //if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
+                /*if (OperatingSystem.IsAndroidVersionAtLeast(31))*/ if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
                     checkboxDynamicColors.PreferenceChange += CheckboxDynamicColors_PreferenceChange;
                 else
                     checkboxDynamicColors.Enabled = false;
