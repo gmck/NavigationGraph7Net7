@@ -121,7 +121,7 @@ namespace com.companyname.navigationgraph7net7.Dialogs
         public override void OnStart()
         {
             base.OnStart();
-
+            
             BottomSheetBehavior? bottomSheetBehavior = BottomSheetBehavior.From((View)view!.Parent!); //OK
             //BottomSheetBehavior? bottomSheetBehavior = BottomSheetBehavior.From(view!.Parent is View);// Crashed at runtime
 

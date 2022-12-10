@@ -28,7 +28,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
             if (PreferenceScreen.FindPreference("systemThemeValue") is SystemThemeListPreference systemThemeListPreference)
             {
-                if (OperatingSystem.IsAndroidVersionAtLeast(31)) //if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
+                if (OperatingSystem.IsAndroidVersionAtLeast(31)) /*if (Build.VERSION.SdkInt >= BuildVersionCodes.S)*/ //Either here is ok
                 {
                     systemThemeListPreference.Init();
                     systemThemeListPreference.PreferenceChange += SystemThemeListPreference_PreferenceChange;
@@ -47,7 +47,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
             if (PreferenceScreen.FindPreference("use_dynamic_colors") is CheckBoxPreference checkboxDynamicColors)
             {
-                /*if (OperatingSystem.IsAndroidVersionAtLeast(31))*/ if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
+                if (OperatingSystem.IsAndroidVersionAtLeast(31)) /*if (Build.VERSION.SdkInt >= BuildVersionCodes.S)*/ //Either here is ok
                     checkboxDynamicColors.PreferenceChange += CheckboxDynamicColors_PreferenceChange;
                 else
                     checkboxDynamicColors.Enabled = false;
@@ -59,7 +59,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
             if (PreferenceScreen.FindPreference("devicesWithNotchesAllowFullScreen") is CheckBoxPreference checkboxDevicesWithNotchesAllFullScreen)
             {
-                if (OperatingSystem.IsAndroidVersionAtLeast(29))  //if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
+                if (OperatingSystem.IsAndroidVersionAtLeast(29))  /*if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)*/ //Either here is ok
                     checkboxDevicesWithNotchesAllFullScreen.PreferenceChange += CheckboxDevicesWithNotchesAllFullScreen_PreferenceChange;
                 else
                     checkboxDevicesWithNotchesAllFullScreen.Enabled = false;
@@ -127,6 +127,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
             ISharedPreferencesEditor? editor = sharedPreferences!.Edit();
             editor!.PutBoolean("use_transparent_statusbar", useTransparentStatusBar)!.Apply();
             editor.Commit();
+            
             Activity!.Recreate();
         }
         #endregion
@@ -144,6 +145,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
             ISharedPreferencesEditor? editor = colorThemeListPreference!.SharedPreferences!.Edit();
             editor!.PutString("colorThemeValue", e.NewValue!.ToString())!.Apply();
+            editor.Commit();
 
             int index = Convert.ToInt16(e.NewValue.ToString());
             string colorThemeValue = colorThemeListPreference!.GetEntries()![index - 1];
@@ -162,10 +164,10 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
             ISharedPreferencesEditor? editor = systemThemeListPreference!.SharedPreferences!.Edit();
             editor!.PutString("systemThemeValue", e.NewValue!.ToString())!.Apply();
+            editor.Commit();
 
             int index = Convert.ToInt16(e.NewValue.ToString());
             string systemThemeValue = systemThemeListPreference.GetEntries()![index - 1];
-            //systemThemeListPreference.Summary = (index != -1) ? systemThemeValue : colorThemeListPreference.DefaultThemeValue;
             systemThemeListPreference.Summary = (index != -1) ? systemThemeValue : systemThemeListPreference.DefaultSystemThemeValue;
 
             // Only available on devices running Android 12+
@@ -190,7 +192,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
             // In other words the user can select to override whatever the theme button is set to when on an Android 12+ device.
 
             UiModeManager? uiModeManager = Activity!.GetSystemService(Context.UiModeService) as UiModeManager;
-            if (OperatingSystem.IsAndroidVersionAtLeast(31))    // Build.VERSION.SdkInt >= BuildVersionCodes.S
+            if (OperatingSystem.IsAndroidVersionAtLeast(31))    /* Build.VERSION.SdkInt >= BuildVersionCodes.S */   //Must use OperatingSystem.IsAndroidVersionAtLeast(xx) otherwise a warning  
                 uiModeManager?.SetApplicationNightMode((int)uiNightMode);  // Only avaialable on Android 12 -API31 -S and above.
 
             ISharedPreferencesEditor? editor = sharedPreferences!.Edit();

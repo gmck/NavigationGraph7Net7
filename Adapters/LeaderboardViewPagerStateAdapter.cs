@@ -2,6 +2,7 @@
 using AndroidX.Lifecycle;
 using AndroidX.ViewPager2.Adapter;
 using com.companyname.navigationgraph7net7.Fragments;
+using System;
 
 namespace com.companyname.navigationgraph7net7.Adapters
 {
@@ -31,7 +32,8 @@ namespace com.companyname.navigationgraph7net7.Adapters
                 0 => new SampleFragment1(),
                 1 => new SampleFragment2(),
                 2 => new SampleFragment3(),
-                _ => throw new System.NotImplementedException(),
+                //_ => throw new System.NotImplementedException(),
+                _ => throw new InvalidOperationException("ItemCount doesn't match number of fragments"),
             };
     }
 }
