@@ -88,6 +88,9 @@
 	  <None Remove="Resources\xml\preferences.xml" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Include="NavigationGraph7Net7.sln" />
+	</ItemGroup>
+	<ItemGroup>
 	  <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.1.1" />
 	  <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.1" />
 	  <PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" Version="2.5.1" />

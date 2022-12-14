@@ -63,7 +63,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
                 menuHost.InvalidateMenu();
 
             // More concise than the above 
-            // (RequireActivity() as IMenuHost).AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed);
+            //(RequireActivity() as IMenuHost).AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed);
 
         }
         #endregion
@@ -127,11 +127,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
         {
             base.OnResume();
 
-            onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, true);
-            //// Android docs:  Strongly recommended to use the ViewLifecycleOwner.This ensures that the OnBackPressedCallback is only added when the LifecycleOwner is Lifecycle.State.STARTED.
-            //// The activity also removes registered callbacks when their associated LifecycleOwner is destroyed, which prevents memory leaks and makes it suitable for use in fragments or other lifecycle owners
-            //// that have a shorter lifetime than the activity.
-            //// Note: this rule out using OnAttach(Context context) as the view hasn't been created yet.
+            onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, false); // normally would set true - but at least this shows the Predictive gesture.
             RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
         }
         #endregion
@@ -141,16 +137,16 @@ namespace com.companyname.navigationgraph7net7.Fragments
         {
             onBackPressedCallback?.Remove();
             base.OnDestroy();
+            
         }
         #endregion
 
-        #region HandleBackPressed
-        public void HandleBackPressed()
+        #region HandleOnBackPressed
+        public void HandleOnBackPressed()
         {
-            onBackPressedCallback!.Enabled = false;
-
+            onBackPressedCallback!.Enabled = true; // Wouldn't do this normally it is normally set false here. Just a test
             // Had to add this for Android 12 devices becausue MainActivity's OnDestroy wasn't being called.
-            // and therefore our Service plus its Notification wasn't being closed.
+            // and therefore our Service wasn't being closed.
             Activity!.Finish();
         }
         #endregion

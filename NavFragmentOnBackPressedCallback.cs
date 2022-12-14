@@ -52,21 +52,21 @@ namespace com.companyname.navigationgraph7net7
 
             // Mixture of top level and non top level fragments
             if (fragment is HomeFragment homeFragment)
-                homeFragment.HandleBackPressed();
+                homeFragment.HandleOnBackPressed();
             else if (fragment is GalleryFragment galleryFragment)
-                galleryFragment.HandleBackPressed(navOptions);
+                galleryFragment.HandleOnBackPressed(navOptions);
             else if (fragment is SlideshowFragment slideshowFragment)
-                slideshowFragment.HandleBackPressed(navOptions);
+                slideshowFragment.HandleOnBackPressed(navOptions);
             else if (fragment is LeaderboardPagerFragment leaderboardPagerFragment)
-                leaderboardPagerFragment.HandleBackPressed(navOptions);
+                leaderboardPagerFragment.HandleOnBackPressed(navOptions);
             else if (fragment is RegisterFragment registerFragment)
-                registerFragment.HandleBackPressed(navOptions);
+                registerFragment.HandleOnBackPressed(navOptions);
             else if (fragment is RaceResultFragment raceResultFragment)
-                raceResultFragment.HandleBackPressed(navOptions);
+                raceResultFragment.HandleOnBackPressed(navOptions);
             else if (fragment is WidgetsFragment widgetsFragment)
-                widgetsFragment.HandleBackPressed(navOptions);
+                widgetsFragment.HandleOnBackPressed(navOptions);
             else if (fragment is PurchaseFragment purchaseFragment)
-                purchaseFragment.HandleBackPressed(navOptions);
+                purchaseFragment.HandleOnBackPressed(navOptions);
 
         }
     } 

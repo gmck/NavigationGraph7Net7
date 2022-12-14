@@ -211,8 +211,8 @@ namespace com.companyname.navigationgraph7net7.Fragments
         }
         #endregion
 
-        #region HandleBackPressed
-        public void HandleBackPressed(NavOptions navOptions)
+        #region HandleOnBackPressed
+        public void HandleOnBackPressed(NavOptions navOptions)
         {
             onBackPressedCallback!.Enabled = false;
 

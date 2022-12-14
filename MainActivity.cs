@@ -3,6 +3,9 @@ using Android.Content;
 using Android.OS;
 using Android.Util;
 using Android.Views;
+using AndroidX.Activity;
+using AndroidX.AppCompat.App;
+using AndroidX.Core.OS;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using AndroidX.Navigation;
@@ -13,6 +16,7 @@ using Google.Android.Material.BottomNavigation;
 using Google.Android.Material.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace com.companyname.navigationgraph7net7
@@ -22,6 +26,7 @@ namespace com.companyname.navigationgraph7net7
                                 NavController.IOnDestinationChangedListener,
                                 NavigationBarView.IOnItemSelectedListener,
                                 NavigationView.IOnNavigationItemSelectedListener
+                                
     {
 
         private readonly string logTag = "navigationGraph7";
@@ -37,9 +42,10 @@ namespace com.companyname.navigationgraph7net7
         private bool devicesWithNotchesAllowFullScreen;             // allow full screen for devices with notches
         private bool animateFragments;                              // animate fragments 
         private bool resetHelperExplanationDialogs;
-        
         private List<int>? immersiveFragmentsDestinationIds;
-        
+
+        //private NavigationGraphOnBackPressedCallback? onBackPressedCallback;
+       
         #region OnCreate
         protected override void OnCreate(Bundle? savedInstanceState)
         {
@@ -51,6 +57,8 @@ namespace com.companyname.navigationgraph7net7
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
+            //onBackPressedCallback = new NavigationGraphOnBackPressedCallback(this, false);
+            //OnBackPressedDispatcher.AddCallback(this, onBackPressedCallback!);
 
             // Require a toolbar
             toolbar = FindViewById<MaterialToolbar>(Resource.Id.toolbar);
@@ -115,7 +123,7 @@ namespace com.companyname.navigationgraph7net7
             #endregion
         }
         #endregion
-
+        
         #region OnApplyWindowInsets
         public WindowInsetsCompat OnApplyWindowInsets(View v, WindowInsetsCompat insets)
         {
@@ -138,9 +146,9 @@ namespace com.companyname.navigationgraph7net7
                         //Log.Debug(logTag, "MainActivity - statusBarsInsets are " + statusBarsInsets.ToString());
                     }
                 }
-                Log.Debug(logTag, "MainActivity - StatusBarsInsets are " + statusBarsInsets.ToString());
-                Log.Debug(logTag, "MainActivity - NavigationBarsInsets are " + navigationBarsInsets.ToString());
-                Log.Debug(logTag, "MainActivity - SystemBarsInsets are " + systemBarsInsets.ToString());
+                //Log.Debug(logTag, "MainActivity - StatusBarsInsets are " + statusBarsInsets.ToString());
+                //Log.Debug(logTag, "MainActivity - NavigationBarsInsets are " + navigationBarsInsets.ToString());
+                //Log.Debug(logTag, "MainActivity - SystemBarsInsets are " + systemBarsInsets.ToString());
             }
             else if (v is DrawerLayout)
                 SetLeftMargin(v, navigationBarsInsets);
@@ -234,6 +242,23 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
+        public void HandleOnBackPressed()
+        {
+            Log.Debug(logTag, "HandleOnBackPressed called");
+
+            Finish();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            //onBackPressedCallback?.Remove();
+            if (IsFinishing)
+                Log.Debug(logTag, "OnDestroy called IsFinishing "+IsFinishing.ToString()); // if true we can shutdown the service etc.
+            else
+                Log.Debug(logTag, "OnDestroy called IsFinishing "+IsFinishing.ToString());
+        }
+    
         #region BottomNavigationViewItemSelected
         private void BottomNavigationView_ItemSelected(object sender, NavigationBarView.ItemSelectedEventArgs e)
         {
@@ -349,6 +374,8 @@ namespace com.companyname.navigationgraph7net7
         public void DisableDrawerLayout() => drawerLayout!.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
         public void EnableDrawerLayout() => drawerLayout!.SetDrawerLockMode(DrawerLayout.LockModeUnlocked);
         #endregion
+
+        
 
     }
 }
