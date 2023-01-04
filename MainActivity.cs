@@ -3,9 +3,7 @@ using Android.Content;
 using Android.OS;
 using Android.Util;
 using Android.Views;
-using AndroidX.Activity;
-using AndroidX.AppCompat.App;
-using AndroidX.Core.OS;
+using Android.Window;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using AndroidX.Navigation;
@@ -25,8 +23,8 @@ namespace com.companyname.navigationgraph7net7
     public class MainActivity : BaseActivity, IOnApplyWindowInsetsListener,
                                 NavController.IOnDestinationChangedListener,
                                 NavigationBarView.IOnItemSelectedListener,
-                                NavigationView.IOnNavigationItemSelectedListener
-                                
+                                NavigationView.IOnNavigationItemSelectedListener,
+                                IOnBackInvokedCallback
     {
 
         private readonly string logTag = "navigationGraph7";
@@ -44,8 +42,6 @@ namespace com.companyname.navigationgraph7net7
         private bool resetHelperExplanationDialogs;
         private List<int>? immersiveFragmentsDestinationIds;
 
-        //private NavigationGraphOnBackPressedCallback? onBackPressedCallback;
-       
         #region OnCreate
         protected override void OnCreate(Bundle? savedInstanceState)
         {
@@ -57,9 +53,7 @@ namespace com.companyname.navigationgraph7net7
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
-            //onBackPressedCallback = new NavigationGraphOnBackPressedCallback(this, false);
-            //OnBackPressedDispatcher.AddCallback(this, onBackPressedCallback!);
-
+            
             // Require a toolbar
             toolbar = FindViewById<MaterialToolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
@@ -137,7 +131,7 @@ namespace com.companyname.navigationgraph7net7
                 SetTopMargin(v, statusBarsInsets);
 
                 // Appear never to need displayCutout because it is always null
-                if (OperatingSystem.IsAndroidVersionAtLeast(28))
+                if (OperatingSystem.IsAndroidVersionAtLeast(28)) //if (OperatingSystem.IsAndroidVersionAtLeast(28))
                 {
                     if (insets.DisplayCutout != null)
                     {
@@ -242,17 +236,14 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
-        public void HandleOnBackPressed()
+        public void OnBackInvoked()
         {
-            Log.Debug(logTag, "HandleOnBackPressed called");
-
-            Finish();
+            throw new NotImplementedException();
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            //onBackPressedCallback?.Remove();
             if (IsFinishing)
                 Log.Debug(logTag, "OnDestroy called IsFinishing "+IsFinishing.ToString()); // if true we can shutdown the service etc.
             else
@@ -375,7 +366,7 @@ namespace com.companyname.navigationgraph7net7
         public void EnableDrawerLayout() => drawerLayout!.SetDrawerLockMode(DrawerLayout.LockModeUnlocked);
         #endregion
 
-        
+
 
     }
 }

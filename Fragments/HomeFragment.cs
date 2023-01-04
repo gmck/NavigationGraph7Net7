@@ -144,10 +144,13 @@ namespace com.companyname.navigationgraph7net7.Fragments
         #region HandleOnBackPressed
         public void HandleOnBackPressed()
         {
-            onBackPressedCallback!.Enabled = true; // Wouldn't do this normally it is normally set false here. Just a test
-            // Had to add this for Android 12 devices becausue MainActivity's OnDestroy wasn't being called.
-            // and therefore our Service wasn't being closed.
-            Activity!.Finish();
+            //if (Activity!.IsTaskRoot)
+            //{
+                onBackPressedCallback!.Enabled = false; // Wouldn't do this normally it is normally set false here. Just a test with true.
+                                                        // Had to add this for Android 12 devices becausue MainActivity's OnDestroy wasn't being called.
+                                                        // and therefore our Service wasn't being closed.
+                Activity!.Finish();
+            //}
         }
         #endregion
 
