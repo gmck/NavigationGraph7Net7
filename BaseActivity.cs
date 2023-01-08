@@ -4,7 +4,6 @@ using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Util;
-using Android.Views;
 using AndroidX.AppCompat.App;
 using AndroidX.Core.Content;
 using AndroidX.Core.Graphics;

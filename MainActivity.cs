@@ -3,7 +3,6 @@ using Android.Content;
 using Android.OS;
 using Android.Util;
 using Android.Views;
-using Android.Window;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using AndroidX.Navigation;
@@ -22,9 +21,7 @@ namespace com.companyname.navigationgraph7net7
     [Activity(Label = "@string/app_name", MainLauncher = true)]  //Theme = "@style/Theme.NavigationGraph.RedBmw",
     public class MainActivity : BaseActivity, IOnApplyWindowInsetsListener,
                                 NavController.IOnDestinationChangedListener,
-                                NavigationBarView.IOnItemSelectedListener,
-                                NavigationView.IOnNavigationItemSelectedListener,
-                                IOnBackInvokedCallback
+                                NavigationView.IOnNavigationItemSelectedListener
     {
 
         private readonly string logTag = "navigationGraph7";
@@ -42,6 +39,8 @@ namespace com.companyname.navigationgraph7net7
         private bool resetHelperExplanationDialogs;
         private List<int>? immersiveFragmentsDestinationIds;
 
+       
+        
         #region OnCreate
         protected override void OnCreate(Bundle? savedInstanceState)
         {
@@ -53,7 +52,7 @@ namespace com.companyname.navigationgraph7net7
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
-            
+
             // Require a toolbar
             toolbar = FindViewById<MaterialToolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
@@ -95,7 +94,7 @@ namespace com.companyname.navigationgraph7net7
 
             // Add the DestinationChanged listener
             navController.AddOnDestinationChangedListener(this);
-
+            
             #region Notes
             // Demonstrates the problem if using 2.3.5.3 versions of Navigation and 1.4.0.4 of Material respectively
             // Already using both overloads of SetupWithNavController() and there is no provision to pass a NavOptions. Since there is no animation contained in nav_graph therefore no animation when
@@ -117,7 +116,7 @@ namespace com.companyname.navigationgraph7net7
             #endregion
         }
         #endregion
-        
+
         #region OnApplyWindowInsets
         public WindowInsetsCompat OnApplyWindowInsets(View v, WindowInsetsCompat insets)
         {
@@ -236,20 +235,15 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
-        public void OnBackInvoked()
-        {
-            throw new NotImplementedException();
-        }
-
+        #region OnDestroy
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            if (IsFinishing)
-                Log.Debug(logTag, "OnDestroy called IsFinishing "+IsFinishing.ToString()); // if true we can shutdown the service etc.
-            else
-                Log.Debug(logTag, "OnDestroy called IsFinishing "+IsFinishing.ToString());
+
+            Log.Debug(logTag, "OnDestroy IsFinishing is " + IsFinishing.ToString());
         }
-    
+        #endregion
+
         #region BottomNavigationViewItemSelected
         private void BottomNavigationView_ItemSelected(object sender, NavigationBarView.ItemSelectedEventArgs e)
         {

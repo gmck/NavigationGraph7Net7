@@ -127,7 +127,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
         {
             base.OnResume();
 
-            onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, false); // normally would set true - but at least this shows the Predictive gesture.
+            onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, true); // normally would set true - but at least this shows the Predictive gesture.
             RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
         }
         #endregion
@@ -144,13 +144,12 @@ namespace com.companyname.navigationgraph7net7.Fragments
         #region HandleOnBackPressed
         public void HandleOnBackPressed()
         {
-            //if (Activity!.IsTaskRoot)
-            //{
-                onBackPressedCallback!.Enabled = false; // Wouldn't do this normally it is normally set false here. Just a test with true.
-                                                        // Had to add this for Android 12 devices becausue MainActivity's OnDestroy wasn't being called.
-                                                        // and therefore our Service wasn't being closed.
-                Activity!.Finish();
-            //}
+
+            onBackPressedCallback!.Enabled = false; // Wouldn't do this normally it is normally set false here. Just a test with true.
+                                                    // Had to add this for Android 12 devices because MainActivity's OnDestroy wasn't being called.
+                                                    // and therefore our Service wasn't being closed.
+            Activity!.Finish();
+
         }
         #endregion
 
