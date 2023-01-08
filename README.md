@@ -1,4 +1,4 @@
 # NavigationGraph7Net7
 net7.0-android33.0 version of NavigationGraph7
 
-Removed referemces to IOnBackInvokedCallback see PredictiveBackGesture project.
+Removed references to IOnBackInvokedCallback see PredictiveBackGesture project.
