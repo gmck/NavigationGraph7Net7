@@ -3,6 +3,7 @@ using Android.Content;
 using Android.OS;
 using Android.Util;
 using Android.Views;
+using AndroidX.Activity;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using AndroidX.Navigation;
@@ -18,6 +19,10 @@ using System.Linq;
 
 namespace com.companyname.navigationgraph7net7
 {
+
+    //adb tcpip 5555 
+    //adb connect 192.168.1.102:5555 connected to 192.168.1.102:5555 - Pixel6
+
     [Activity(Label = "@string/app_name", MainLauncher = true)]  //Theme = "@style/Theme.NavigationGraph.RedBmw",
     public class MainActivity : BaseActivity, IOnApplyWindowInsetsListener,
                                 NavController.IOnDestinationChangedListener,
@@ -39,8 +44,9 @@ namespace com.companyname.navigationgraph7net7
         private bool resetHelperExplanationDialogs;
         private List<int>? immersiveFragmentsDestinationIds;
 
-       
-        
+        private NavActivityOnBackPressedCallback? onBackPressedCallback;
+
+
         #region OnCreate
         protected override void OnCreate(Bundle? savedInstanceState)
         {
@@ -72,8 +78,8 @@ namespace com.companyname.navigationgraph7net7
             appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinationIds).SetOpenableLayout(drawerLayout).Build();  // SetDrawerLayout replaced with SetOpenableLayout
 
             // The following fragments are immersive fragments - see SetShortEdgesIfRequired
-            immersiveFragmentsDestinationIds = new List<int> { Resource.Id.race_result_fragment};
-            
+            immersiveFragmentsDestinationIds = new List<int> { Resource.Id.race_result_fragment };
+
             NavigationUI.SetupActionBarWithNavController(this, navController, appBarConfiguration);
 
             // Notes using both Navigation.Fragment and Navigation.UI version 2.3.5.3. Navigation.UI therefore includes Android.Material 1.4.0.4
@@ -94,7 +100,10 @@ namespace com.companyname.navigationgraph7net7
 
             // Add the DestinationChanged listener
             navController.AddOnDestinationChangedListener(this);
-            
+
+            onBackPressedCallback = new NavActivityOnBackPressedCallback(this, false);
+            OnBackPressedDispatcher.AddCallback(onBackPressedCallback);
+
             #region Notes
             // Demonstrates the problem if using 2.3.5.3 versions of Navigation and 1.4.0.4 of Material respectively
             // Already using both overloads of SetupWithNavController() and there is no provision to pass a NavOptions. Since there is no animation contained in nav_graph therefore no animation when
@@ -122,9 +131,9 @@ namespace com.companyname.navigationgraph7net7
         {
             AndroidX.Core.Graphics.Insets statusBarsInsets = insets.GetInsets(WindowInsetsCompat.Type.StatusBars());
             // This is the only one we need the rest were for Log.Debug purposes to prove that we weren't getting insets until after the HideSystemUi had executed. 
-            AndroidX.Core.Graphics.Insets systemBarsInsets = insets.GetInsets(WindowInsetsCompat.Type.SystemBars());            
+            //AndroidX.Core.Graphics.Insets systemBarsInsets = insets.GetInsets(WindowInsetsCompat.Type.SystemBars());            
             AndroidX.Core.Graphics.Insets navigationBarsInsets = insets.GetInsets(WindowInsetsCompat.Type.NavigationBars());
-            
+
             if (v is MaterialToolbar)
             {
                 SetTopMargin(v, statusBarsInsets);
@@ -166,7 +175,7 @@ namespace com.companyname.navigationgraph7net7
         private void SetLeftMargin(View v, AndroidX.Core.Graphics.Insets insets)
         {
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams)v!.LayoutParameters!;
-            marginLayoutParams.LeftMargin = insets.Left;        
+            marginLayoutParams.LeftMargin = insets.Left;
             marginLayoutParams.TopMargin = marginLayoutParams.TopMargin;
             marginLayoutParams.RightMargin = insets.Right;// marginLayoutParams.RightMargin;
             marginLayoutParams.BottomMargin = marginLayoutParams.BottomMargin;
@@ -239,6 +248,12 @@ namespace com.companyname.navigationgraph7net7
         protected override void OnDestroy()
         {
             base.OnDestroy();
+
+            //if (!IsChangingConfigurations)
+            //    Finish();
+
+            if (IsFinishing)
+                StopService();
 
             Log.Debug(logTag, "OnDestroy IsFinishing is " + IsFinishing.ToString());
         }
@@ -361,7 +376,19 @@ namespace com.companyname.navigationgraph7net7
         #endregion
 
 
+        public void HandleOnBackPressed()
+        {
+            onBackPressedCallback!.ShouldCallFinish = true;
+            onBackPressedCallback!.Enabled = false;
+        }
 
+        public void StopService()
+        {
+            // Called from OnDestroy when IsFinishing is true
+            Log.Debug(logTag, "StopService - called from OnDestroy");
+        }
+
+        
     }
 }
 

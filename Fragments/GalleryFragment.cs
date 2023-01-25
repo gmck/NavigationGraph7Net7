@@ -55,7 +55,6 @@ namespace com.companyname.navigationgraph7net7.Fragments
             // Navigate back to the HomeFragment
             navController.PopBackStack(Resource.Id.home_fragment, false);
             navController.Navigate(Resource.Id.home_fragment, null, navOptions);
-
         }
         #endregion
 

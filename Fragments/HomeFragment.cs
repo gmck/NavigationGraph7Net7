@@ -20,6 +20,8 @@ namespace com.companyname.navigationgraph7net7.Fragments
     // AddMenuProvider is based on LifeCycle therefore it is only applicable while this fragment is visible. The other ctor requires you to use RemoveMenuProvider.
     // Any fragment that doesn't require a menu then doesn't implement the IMenuProvider
 
+    // OnPrepareMenu and onMenuClosed are missing from IMenuProvider interface
+    // See Menu Deprecations when upgrading AndroidX.Navigation.Fragment to 2.5.1 #611 Sept 2nd 2022
     public class HomeFragment : Fragment, IMenuProvider
     {
         private NavFragmentOnBackPressedCallback? onBackPressedCallback;
@@ -79,6 +81,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
         #region OnPrepareMenu
         public void OnPrepareMenu(IMenu menu)
         {
+            // OnPrepareMenu is missing from  IMenuProvider interface - this is a workaround.
             // I doubt that this is the correct way to disable a menuItem - but it appears to work. Trying to implement behaviour of the deprecated OnPrepareOptionsMenu,
             // think it should be using MenuHostHelper but not sure how to implement it - still trying to figure it out.
 
@@ -127,7 +130,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
         {
             base.OnResume();
 
-            onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, true); // normally would set true - but at least this shows the Predictive gesture.
+            onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, false); // normally would set true - but at least this shows the Predictive gesture.
             RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
         }
         #endregion
@@ -135,21 +138,26 @@ namespace com.companyname.navigationgraph7net7.Fragments
         #region OnDestroy
         public override void OnDestroy()
         {
-            onBackPressedCallback?.Remove();
+            onBackPressedCallback?.Remove(); // Will be automatically removed according to Google.
             base.OnDestroy();
-            
         }
         #endregion
+
 
         #region HandleOnBackPressed
         public void HandleOnBackPressed()
         {
+            // Had to add this for Android 12 devices because MainActivity's OnDestroy wasn't being called.
+            // and therefore our Service wasn't being closed.
 
-            onBackPressedCallback!.Enabled = false; // Wouldn't do this normally it is normally set false here. Just a test with true.
-                                                    // Had to add this for Android 12 devices because MainActivity's OnDestroy wasn't being called.
-                                                    // and therefore our Service wasn't being closed.
-            Activity!.Finish();
+            onBackPressedCallback!.Enabled = false; 
 
+            // Either of these techniques will work. However since we know we are in the StartDestination or top most fragment, we don't really need the test, so could just call Activity.Finish()            
+            //if (!Navigation.FindNavController(Activity!, Resource.Id.nav_host).PopBackStack())
+            //    Activity!.Finish();
+
+            if (!Navigation.FindNavController(Activity!, Resource.Id.nav_host).NavigateUp())
+                Activity!.Finish();
         }
         #endregion
 
@@ -165,6 +173,15 @@ namespace com.companyname.navigationgraph7net7.Fragments
                     BasicDialogFragment.NewInstance(title, explanation).Show(fm, tag);
             }
         }
+        #endregion
+
+        #region not used - but keep as reference
+        //public int BackStackCount()
+        //{
+        //    NavHostFragment? navHostFragment = SupportFragmentManager.FindFragmentById(Resource.Id.nav_host) as NavHostFragment;
+        //    int backStackEntryCount = navHostFragment!.ChildFragmentManager.BackStackEntryCount;
+        //    return backStackEntryCount;
+        //}
         #endregion
     }
 }
