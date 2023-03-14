@@ -51,9 +51,9 @@ namespace com.companyname.navigationgraph7net7
             Log.Debug(logTag, "Navigate back - Pop Exit Animation " + navOptions.PopExitAnim.ToString());
 
             // Mixture of top level and non top level fragments
-            if (fragment is HomeFragment homeFragment)
-                homeFragment.HandleOnBackPressed();
-            else if (fragment is GalleryFragment galleryFragment)
+            //if (fragment is HomeFragment homeFragment)
+            //    homeFragment.HandleOnBackPressed();
+            if (fragment is GalleryFragment galleryFragment)
                 galleryFragment.HandleOnBackPressed(navOptions);
             else if (fragment is SlideshowFragment slideshowFragment)
                 slideshowFragment.HandleOnBackPressed(navOptions);

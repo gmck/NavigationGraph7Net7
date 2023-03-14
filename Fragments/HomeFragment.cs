@@ -24,7 +24,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
     // See Menu Deprecations when upgrading AndroidX.Navigation.Fragment to 2.5.1 #611 Sept 2nd 2022
     public class HomeFragment : Fragment, IMenuProvider
     {
-        private NavFragmentOnBackPressedCallback? onBackPressedCallback;
+        //private NavFragmentOnBackPressedCallback? onBackPressedCallback; // Commented out 14/03/2023 - see where also commented out in NavFragmentOnBackPressedCallback
         private IMenuHost? menuHost;
         private bool animateFragments;
         
@@ -130,35 +130,35 @@ namespace com.companyname.navigationgraph7net7.Fragments
         {
             base.OnResume();
 
-            onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, false); // normally would set true - but at least this shows the Predictive gesture.
-            RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
+            //onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, false); // normally would set true - but at least this shows the Predictive gesture.
+            //RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
         }
         #endregion
 
         #region OnDestroy
         public override void OnDestroy()
         {
-            onBackPressedCallback?.Remove(); // Will be automatically removed according to Google.
+            //onBackPressedCallback?.Remove(); // Will be automatically removed according to Google.
             base.OnDestroy();
         }
         #endregion
 
 
         #region HandleOnBackPressed
-        public void HandleOnBackPressed()
-        {
-            // Had to add this for Android 12 devices because MainActivity's OnDestroy wasn't being called.
-            // and therefore our Service wasn't being closed.
+        //public void HandleOnBackPressed()
+        //{
+        //    // Had to add this for Android 12 devices because MainActivity's OnDestroy wasn't being called. See workaround for closing the Service in NavigationGraph7ApplicationNet7.cs 
+        //    // and therefore our Service wasn't being closed.
 
-            onBackPressedCallback!.Enabled = false; 
+        //    onBackPressedCallback!.Enabled = false; 
 
-            // Either of these techniques will work. However since we know we are in the StartDestination or top most fragment, we don't really need the test, so could just call Activity.Finish()            
-            //if (!Navigation.FindNavController(Activity!, Resource.Id.nav_host).PopBackStack())
-            //    Activity!.Finish();
+        //    // Either of these techniques will work. However since we know we are in the StartDestination or top most fragment, we don't really need the test, so could just call Activity.Finish()            
+        //    //if (!Navigation.FindNavController(Activity!, Resource.Id.nav_host).PopBackStack())
+        //    //    Activity!.Finish();
 
-            if (!Navigation.FindNavController(Activity!, Resource.Id.nav_host).NavigateUp())
-                Activity!.Finish();
-        }
+        //    if (!Navigation.FindNavController(Activity!, Resource.Id.nav_host).NavigateUp())
+        //        Activity!.Finish();
+        //}
         #endregion
 
         #region ShowSubscriptionInfoDialog - Moved from the MainActivity

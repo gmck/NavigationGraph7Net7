@@ -12,11 +12,14 @@
 		<RuntimeIdentifiers Condition=" '$(Configuration)' == 'Release' ">android-arm;android-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 		<AndroidLinkTool>r8</AndroidLinkTool>
 	</PropertyGroup>
+
 	<ItemGroup>
-	  <Compile Remove="NavigationGraph7Application.cs" />
-	  <Compile Remove="NavigationGraphOnBackPressedCallback.cs" />
+		<Compile Remove="NavActivityOnBackPressedCallback.cs" />
+		<Compile Remove="NavigationGraph7Application.cs" />
+		<Compile Remove="NavigationGraphOnBackPressedCallback.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Remove="Resources\anim\slide_in_left.xml" />
@@ -96,10 +99,10 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.0.1" />
-		<PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.1" />
-		<PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" Version="2.5.1" />
-		<PackageReference Include="Xamarin.AndroidX.Navigation.UI" Version="2.5.1" />
-		<PackageReference Include="Xamarin.AndroidX.Preference" Version="1.2.0.2" />
-		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.7.0.2" />
+		<PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" Version="2.5.3.1" />
+		<PackageReference Include="Xamarin.AndroidX.Navigation.UI" Version="2.5.3.1" />
+		<PackageReference Include="Xamarin.AndroidX.Preference" Version="1.2.0.4" />
+		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.8.0" />
 	</ItemGroup>
 </Project>

@@ -22,6 +22,16 @@ namespace com.companyname.navigationgraph7net7
 
     //adb tcpip 5555 
     //adb connect 192.168.1.102:5555 connected to 192.168.1.102:5555 - Pixel6
+    //adb tcpip 5555
+    //adb connect 192.168.1.116:5555 for the S8
+    //Must have the usb connection when typing adb tcpip 5555. once connected by wifi we can then remove the usb cable
+
+    //adb uninstall Mono.Android.DebugRuntime
+    //adb uninstall com.companyname.whatever
+    //adb shell pm uninstall -k --user 0 <package name>
+    //adb shell cmd com.companyname.whatever uninstall -k 
+
+    //https://proandroiddev.com/handling-back-press-in-android-13-the-correct-way-be43e0ad877a
 
     [Activity(Label = "@string/app_name", MainLauncher = true)]  //Theme = "@style/Theme.NavigationGraph.RedBmw",
     public class MainActivity : BaseActivity, IOnApplyWindowInsetsListener,
@@ -43,9 +53,6 @@ namespace com.companyname.navigationgraph7net7
         private bool animateFragments;                              // animate fragments 
         private bool resetHelperExplanationDialogs;
         private List<int>? immersiveFragmentsDestinationIds;
-
-        private NavActivityOnBackPressedCallback? onBackPressedCallback;
-
 
         #region OnCreate
         protected override void OnCreate(Bundle? savedInstanceState)
@@ -100,9 +107,6 @@ namespace com.companyname.navigationgraph7net7
 
             // Add the DestinationChanged listener
             navController.AddOnDestinationChangedListener(this);
-
-            onBackPressedCallback = new NavActivityOnBackPressedCallback(this, false);
-            OnBackPressedDispatcher.AddCallback(onBackPressedCallback);
 
             #region Notes
             // Demonstrates the problem if using 2.3.5.3 versions of Navigation and 1.4.0.4 of Material respectively
@@ -374,13 +378,6 @@ namespace com.companyname.navigationgraph7net7
         public void DisableDrawerLayout() => drawerLayout!.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
         public void EnableDrawerLayout() => drawerLayout!.SetDrawerLockMode(DrawerLayout.LockModeUnlocked);
         #endregion
-
-
-        public void HandleOnBackPressed()
-        {
-            onBackPressedCallback!.ShouldCallFinish = true;
-            onBackPressedCallback!.Enabled = false;
-        }
 
         public void StopService()
         {

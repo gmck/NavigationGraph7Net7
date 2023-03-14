@@ -62,14 +62,12 @@ namespace com.companyname.navigationgraph7net7.Fragments
             {
                 case Resource.Id.action_register_fragment:
 
-                    #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                    Toast.MakeText(Activity, Resources.GetString(Resource.String.toast_message), ToastLength.Long).Show();
-                    #pragma warning restore CS8602 // Dereference of a possibly null reference.
-
+                    // Various attempts and then found the correct way - see below 04/03/2022
                     // Either of these work - here I prefer to use the pragma, both the following lines look like overkill to me.
                     //Toast? toast = Toast.MakeText(Activity!, Resources.GetString(Resource.String.toast_message), ToastLength.Long);toast!.Show();
                     //Toast? toast = Toast.MakeText(Activity ?? throw new InvalidOperationException("Activity is null!"),Resources.GetString(Resource.String.toast_message),ToastLength.Long) ?? throw new InvalidOperationException("Toast.MakeText returned null!");toast.Show();
 
+                    Toast.MakeText(Activity, Resources.GetString(Resource.String.toast_message), ToastLength.Long)?.Show();
                     return true;
 
                 // Must have this default condition - otherwise we lose the ability to open the NavigationMenu in the MainActivity via the hamburger icon 
