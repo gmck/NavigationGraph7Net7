@@ -22,3 +22,7 @@ Updated some of the packages
 **25/01/2023**
 
 Removed references to IOnBackInvokedCallback see PredictiveBackGesture project.
+
+Jan 25 2023
+
+Added Application, Application.IActivityLifecycleCallbacks to NavigationGraph7ApplicationNet7.cs 
