@@ -253,9 +253,6 @@ namespace com.companyname.navigationgraph7net7
         {
             base.OnDestroy();
 
-            //if (!IsChangingConfigurations)
-            //    Finish();
-
             if (IsFinishing)
                 StopService();
 

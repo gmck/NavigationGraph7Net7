@@ -1,5 +1,9 @@
 # NavigationGraph7Net7 net7.0-android33
 
+**03/04/2023**
+The PredictiveBackGesture stopped working reliably after upgrading my Pixel 6 to the March 2023 Pixel 6 Security/Feature Update.
+
+
 **14/03/2023** 
 
 Removed the NavActivityOnBackPressedCallback class as it was serving no purpose and therefore not required.
