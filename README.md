@@ -1,4 +1,7 @@
 # NavigationGraph7Net7 net7.0-android33
+**05/04/2023**
+
+Had to revert to previous version of OnActivityDestroyed in NavigationGraph7Net7.cs because the change below was not tested against the SettingsFragment. With that change any setting in the fragment that caused the activity to be recreated would call activity.Finish() and cause the app to exit. Not what we wanted!!
 
 **04/04/2023**
 Changed OnActivityDestroyed in NavigationGraph7Net7.cs to
