@@ -1,7 +1,21 @@
 # NavigationGraph7Net7 net7.0-android33
 
+**04/04/2023**
+Changed OnActivityDestroyed in NavigationGraph7Net7.cs to
+
+```
+public void OnActivityDestroyed(Activity activity)
+{
+    if (activity is MainActivity && !activity.IsFinishing)
+        activity.Finish();
+}
+```
+
+IsFinishing is true in MainActivity so StopService is being called when debugging, but do not see it in the logs. Added a Toast in StopService which displays that the service method has stopped
+
 **03/04/2023**
-The PredictiveBackGesture stopped working reliably after upgrading my Pixel 6 to the March 2023 Pixel 6 Security/Feature Update.
+The PredictiveBackGesture stopped working reliably after upgrading my Pixel 6 to the March 2023 Pixel 6 Security/Feature Update. Three other Android 13 Samsung devices still display the PBG.
+
 
 
 **14/03/2023** 

@@ -47,7 +47,12 @@ namespace com.companyname.navigationgraph7net7
 
         public void OnActivityDestroyed(Activity activity)
         {
-            if (activity is MainActivity &!activity.IsFinishing)
+            // The following screwed up any changes in the SettingsFragment that causes the MainActivity to be destroyed, so we do need IsChangingConfigurations, otherwise the commented code would cause Finish to be called.
+            // Don't believe every improved suggestion that ChatGPT can come up without testing!!!
+            //if (activity is MainActivity && !activity.IsFinishing)
+            //    activity.Finish();
+
+            if (!activity.IsChangingConfigurations)
                 activity.Finish();
         }
 
