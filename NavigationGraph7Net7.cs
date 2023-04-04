@@ -47,7 +47,7 @@ namespace com.companyname.navigationgraph7net7
 
         public void OnActivityDestroyed(Activity activity)
         {
-            if (activity is MainActivity &!activity.IsFinishing)
+            if (activity is MainActivity && !activity.IsFinishing)
                 activity.Finish();
         }
 

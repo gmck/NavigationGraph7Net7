@@ -3,7 +3,7 @@ using Android.Content;
 using Android.OS;
 using Android.Util;
 using Android.Views;
-using AndroidX.Activity;
+using Android.Widget;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using AndroidX.Navigation;
@@ -164,7 +164,7 @@ namespace com.companyname.navigationgraph7net7
         #endregion
 
         #region SetMargins
-        private void SetTopMargin(View v, AndroidX.Core.Graphics.Insets insets)
+        private static void SetTopMargin(View v, AndroidX.Core.Graphics.Insets insets)
         {
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams)v!.LayoutParameters!;
             //Log.Debug(logTag, "MainActivity - marginLayoutParams.LeftMargin " + marginLayoutParams.LeftMargin.ToString());
@@ -176,7 +176,7 @@ namespace com.companyname.navigationgraph7net7
             v.RequestLayout();
         }
 
-        private void SetLeftMargin(View v, AndroidX.Core.Graphics.Insets insets)
+        private static void SetLeftMargin(View v, AndroidX.Core.Graphics.Insets insets)
         {
             ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams)v!.LayoutParameters!;
             marginLayoutParams.LeftMargin = insets.Left;
@@ -380,6 +380,7 @@ namespace com.companyname.navigationgraph7net7
         {
             // Called from OnDestroy when IsFinishing is true
             Log.Debug(logTag, "StopService - called from OnDestroy");
+            Toast.MakeText(this, "Service has been stopped.", ToastLength.Long)!.Show();
         }
 
         
