@@ -98,7 +98,7 @@
 		<None Include="NavigationGraph7Net7.sln" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.6.1" />
 		<PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.0.3" />
 		<PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" Version="2.5.3.1" />
 		<PackageReference Include="Xamarin.AndroidX.Navigation.UI" Version="2.5.3.1" />
