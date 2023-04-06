@@ -14,7 +14,6 @@ using Google.Android.Material.BottomNavigation;
 using Google.Android.Material.Navigation;
 using System;
 using System.Collections.Generic;
-//using System.Diagnostics;
 using System.Linq;
 
 namespace com.companyname.navigationgraph7net7
