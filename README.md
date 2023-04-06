@@ -1,6 +1,17 @@
 # NavigationGraph7Net7 net7.0-android33
 **06/04/2023**
-Minor change- Updated Xamarin.AndroidX.AppCompat to 1.6.1
+
+Removed all references to the OnBackPressedCallback in the StartDestination Fragment (HomeFragment) as it can't be used if supporting Predictive Back Gesture. 
+
+Reported failure of Predictive Back Gesture problem to Google on Pixel Android 13 devices (Pixel6 and Pixel3a) https://issuetracker.google.com/issues/275597731
+
+Also had a response from Microsoft about the failure of the Xamarin Android Designer to open any xml layout file if the app uses a nav_graph. See https://developercommunity.visualstudio.com/t/XamarinAndroid-Designer-fails-on-openin/1617011.
+
+It was first reported 25 Feb 2020, and now over three years later they claim they wont fix it. What a useless software company!!. Compare their response with the one from Google. Reading their response, you'd think they were conversing with a 9 year old who was disappointed about his latest school project. Must be from their latest Bing authored woke response group. I conclude from that using their Send Feedback from within Visual Studio 2022 as a complete waste of your time.
+
+
+
+Minor change - Updated Xamarin.AndroidX.AppCompat to 1.6.1
 
 **05/04/2023**
 
