@@ -1,4 +1,10 @@
 # NavigationGraph7Net7 net7.0-android33
+**11/04/2023**
+
+While working on NavigationGraph8Net7 which will use the color naming scheme that jetpack compose devs use. That is name colours via their luminence values, which I find much easier to understand than the complex system that the Material 3 design developers came up with. I came across a problem with the two generic dialog type layouts generic_dialog and generic_dialog_switch_scrollable in that they still had references to AppCompat attributes. I corrected them and so have also corrected them in this project. Since they are customised dialogs they now follow the Material 3 spec and use the attribute colorOnSurface in the textView's android:textColor of those two dialog layouts. 
+
+The changes make very little difference to NavigationGraph7Net7, but will be evident in NavigationGraph8Net7.
+
 **06/04/2023**
 
 Removed all references to the OnBackPressedCallback in the StartDestination Fragment (HomeFragment) as it can't be used if supporting Predictive Back Gesture. 
