@@ -1,7 +1,7 @@
 # NavigationGraph7Net7 net7.0-android33
 **18/04/2023**
 
-Another small change to eliminate a visible line at the bottom of the tab layout containing the page indictors of the LeaderboardFragment. Added the following.
+Another small change to eliminate a unwanted visible line at the bottom of the tab layout containing the page indictors of the LeaderboardFragment. Added the following to the TabLayout of the fragment_leaderboard_viewpager.xml.
 
 ```
 android:background="?android:attr/colorBackground"
