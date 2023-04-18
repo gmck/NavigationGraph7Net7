@@ -1,4 +1,12 @@
 # NavigationGraph7Net7 net7.0-android33
+**18/04/2023**
+
+Another small change to eliminate a visible line at the bottom of the tab layout containing the page indictors of the LeaderboardFragment. Added the following.
+
+```
+android:background="?android:attr/colorBackground"
+```
+
 **11/04/2023**
 
 While working on NavigationGraph8Net7 which will use the color naming scheme that jetpack compose devs use. That is name colours via their luminence values, which I find much easier to understand than the complex system that the Material 3 design developers came up with. I came across a problem with the two generic dialog type layouts generic_dialog and generic_dialog_switch_scrollable in that they still had references to AppCompat attributes. I corrected them and so have also corrected them in this project. Since they are customised dialogs they now follow the Material 3 spec and use the attribute colorOnSurface in the textView's android:textColor of those two dialog layouts. 

@@ -8,13 +8,13 @@
     android:fillViewport="true"
     android:scrollbars="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+	<androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <TextView
+		<TextView
             android:id="@+id/textView_header"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -26,7 +26,7 @@
             app:layout_constraintBottom_toTopOf="@+id/textView_explanation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
-		
+
 		<TextView
             android:id="@+id/textView_explanation"
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-        <com.google.android.material.materialswitch.MaterialSwitch
+		<com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switch_show_again"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -51,6 +51,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:switchPadding="16dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

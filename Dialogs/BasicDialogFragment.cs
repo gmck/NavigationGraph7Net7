@@ -5,7 +5,7 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using Google.Android.Material.Dialog;
 
-namespace com.companyname.navigationgraph7net7
+namespace com.companyname.navigationgraph7net7.Dialogs
 {
     internal class BasicDialogFragment : AppCompatDialogFragment
     {
@@ -13,7 +13,7 @@ namespace com.companyname.navigationgraph7net7
 
         internal static BasicDialogFragment NewInstance(string title, string message)
         {
-            Bundle arguments = new Bundle();
+            Bundle arguments = new();
             arguments.PutString("Title", title);
             arguments.PutString("Message", message);
 

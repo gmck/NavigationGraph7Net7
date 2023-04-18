@@ -7,6 +7,7 @@ using AndroidX.Fragment.App;
 using AndroidX.Navigation;
 using AndroidX.Navigation.UI;
 using AndroidX.Preference;
+using com.companyname.navigationgraph7net7.Dialogs;
 
 namespace com.companyname.navigationgraph7net7.Fragments
 {
