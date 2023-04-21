@@ -173,6 +173,6 @@
 	
 
 	<style name="Theme.NavigationGraph.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
-	<style name="Theme.NavigationGraph.PopupOverlay" parent="ThemeOverlay.Material3.Light" />
+	<style name="Theme.NavigationGraph.PopupOverlay" parent="ThemeOverlay.Material3.Dark" />
 	
 </resources>

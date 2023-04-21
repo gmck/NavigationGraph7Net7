@@ -1,4 +1,12 @@
 # NavigationGraph7Net7 net7.0-android33
+**21/04/2023**
+
+Had the wrong setting for 3 dot menus when in dark Mode.
+The 3 dot menu was dark on light, should have been light on dark. Corrected to the following
+
+```
+<style name="Theme.NavigationGraph.PopupOverlay" parent="ThemeOverlay.Material3.Dark" />
+```
 **18/04/2023**
 
 Another small change to eliminate an unwanted visible line at the bottom of the tab layout containing the page indictors of the LeaderboardFragment. Added the following to the TabLayout of the fragment_leaderboard_viewpager.xml.
