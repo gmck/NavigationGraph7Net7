@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
+	<!--These were the Matewrial 2 colors for colorPrimary, colorPrimaryVariant and colorSecondary - no longer used-->
 
 	<!--RedBmw Dark theme colors-->
 	<color name="red_200">#ef9a9a</color>

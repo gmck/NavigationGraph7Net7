@@ -67,7 +67,11 @@
 	<color name="red_bmw_light_onBackground">#201A19</color>
 
 	<color name="red_bmw_light_surface">#FFFBFF</color>
-	<color name="red_bmw_light_onSurface">#201A19</color>
+	<!--<color name="red_bmw_light_onSurface">#201A19</color>-->				<!--originally generated-->	
+
+	<color name="red_bmw_light_onSurface">#4d004d</color>		<!--Try 20,15,10% of the generated surfaceColor FFFBFF  20% 660066, 15% 4d004d, 10% 330033-->
+	
+	
 	<color name="red_bmw_light_surfaceVariant">#F5DDDB</color>
 	<color name="red_bmw_light_onSurfaceVariant">#534342</color>
 
@@ -159,7 +163,10 @@
 	<color name="blue_audi_light_onBackground">#1A1C1E</color>
 
 	<color name="blue_audi_light_surface">#FDFBFF</color>
-	<color name="blue_audi_light_onSurface">#1A1C1E</color>
+	<!--<color name="blue_audi_light_onSurface">#1A1C1E</color>-->		<!--Originally generated-->
+
+	<color name="blue_audi_light_onSurface">#26004d</color>			<!--apply the 20% color of #FDFBFF to make a new OnSurface color which is #330066, then tried 15% 26004d,  finally 10% which is 1a0033, too blue--> 
+	
 	<color name="blue_audi_light_surfaceVariant">#E0E2EC</color>
 	<color name="blue_audi_light_onSurfaceVariant">#43474E</color>
 
@@ -217,15 +224,13 @@
 
 	<!--<color name="seed">#00b058</color>-->
 	<color name="green_bmw_light_primary">#00b058</color>
-	<!--<color name="green_bmw_light_primary">#006D34</color>-->
-	<!--Originally generated-->
+	<!--<color name="green_bmw_light_primary">#006D34</color>-->						<!--Originally generated-->
 	<color name="green_bmw_light_onPrimary">#FFFFFF</color>
 	<color name="green_bmw_light_primaryContainer">#72FD9B</color>
 	<color name="green_bmw_light_onPrimaryContainer">#00210B</color>
 
 	<color name="green_bmw_light_secondary">#007f2c</color>
-	<!--<color name="green_bmw_light_secondary">#006E25</color>-->
-	<!--Originally generated-->
+	<!--<color name="green_bmw_light_secondary">#006E25</color>-->						<!--Originally generated-->
 	<color name="green_bmw_light_onSecondary">#FFFFFF</color>
 	<color name="green_bmw_light_secondaryContainer">#90FA96</color>
 	<color name="green_bmw_light_onSecondaryContainer">#002106</color>
@@ -241,10 +246,11 @@
 	<color name="green_bmw_light_onErrorContainer">#410002</color>
 
 	<color name="green_bmw_light_background">#FCFDF7</color>
-	<color name="green_bmw_light_onBackground">#191C19</color>
-
-	<color name="green_bmw_light_surface">#FCFDF7</color>
-	<color name="green_bmw_light_onSurface">#191C19</color>
+	<!--<color name="green_bmw_light_onBackground">#191C19</color>-->					<!--Originally generated-->
+	<color name="green_bmw_light_onBackground">#29573b</color>
+	
+	<color name="green_bmw_light_surface">#FCFDF7</color>								<!--fcfdf7 98% -->
+	<color name="green_bmw_light_onSurface">#475214</color>							<!--475214 is the 20% of fcfdf7, 596619 15%  (too black) of fcfdf7 the surface color-->
 	<color name="green_bmw_light_surfaceVariant">#DDE5DA</color>
 	<color name="green_bmw_light_onSurfaceVariant">#414941</color>
 

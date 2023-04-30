@@ -23,7 +23,7 @@
 
 	<style name="TitleTextStyle" parent="MaterialAlertDialog.Material3.Title.Text">
 		<!-- Just bold the Title.Text-->
-		<item name="android:textStyle">bold</item>
+		<item name="android:textStyle">normal</item>
 	</style>
 
 	<style name="RoundShapeAppearance" parent="ShapeAppearance.Material3.MediumComponent">

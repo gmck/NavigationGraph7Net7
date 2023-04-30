@@ -22,7 +22,7 @@
             android:paddingTop="16dp"
 			android:textColor="?attr/colorOnSurface"
             android:textSize="18sp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             app:layout_constraintBottom_toTopOf="@+id/textView_explanation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
