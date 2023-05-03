@@ -36,9 +36,9 @@
 		<item name="colorSurfaceInverse">@color/red_bmw_dark_inverseSurface</item>
 		<item name="colorPrimaryInverse">@color/red_bmw_dark_inversePrimary</item>
 		
-		
 	</style>
 
+	
 	<style name="Theme.NavigationGraph.RedBmw.Base" parent="Theme.Material3.DayNight.NoActionBar">
 
 		

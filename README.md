@@ -1,13 +1,19 @@
 # NavigationGraph7Net7 net7.0-android33
+**May 3, 2023**
+
+Rationalization of overriding the Theme Builder colours. Further to the changes made a couple of days ago, I've now removed all overridden colours except for colorPrimary and colorSecondary from the three themes. The text color of the dialogs and bottomSheetDialogs is now colorOnSurfaceVariant and the background colour of both is now colorSurfaceVariant. Unfortunately, the documentation for BottomSheetDialogs doesn't specify a colour for the text, so I've just gone with the same colour as used by standard dialogs.
+
+All the packages have also been bumped to the latest versions.
+
 **May 1, 2003**
 
-I decided to revert back to using the Material3 generated (https://m3.material.io/theme-builder#/custom) colours for each of the 3 themes, instead of what I indicated earlier for NavigationGraph8Net7. While I'm attracted to jetpack compose convention of of naming colours by their luminance value it is alot of work to manually come up with a complete scheme. 
+I decided to revert to using the Material3 generated (https://m3.material.io/theme-builder#/custom) colours for each of the 3 themes, instead of what I indicated earlier for NavigationGraph8Net7. While I'm attracted to the jetpack compose convention of naming colours by their luminance value it is a lot of work to manually come up with a complete scheme.
 
 However, if using the Theme Builder, I'm still stuck with having to override colours like colorPrimary and colorSecondary if I still want to maintain the colours of my app which was based on the Material2 design colour system. The missing Material2 colorPrimaryVariant in Material3 can only be replaced with Material3's colorSecondary (as suggested in the compose migration docs). However, because the actual colours input into the theme builder are not used, (they use your input colours as a seed, you then need to override colorPrimary and colorSecondary to at least use the same colours of the Toolbar and Statusbar of your app. I've also had to override colorOnSurface for use in dialogs.
 
-I've left the original values in the themes, so you can commented out my changes and uncomment the original values to see the differences.
-    
-Other changes include a clean up of the MainActivity, where various methods included notes and explanations about what the code was doing as the NavigationComponent evolved. I've removed those notes and explanations and moved them to the bottom of the MainActivity, as the notes are still valuable to understand how the Navigation Component has evolved over its development. 
+I've left the original values in the themes, so you can comment out my changes and uncomment the original values to see the differences.
+
+Other changes include a clean-up of the MainActivity, where various methods included notes and explanations about what the code was doing as the NavigationComponent evolved. I've removed those notes and explanations and moved them to the bottom of the MainActivity, as the notes are still valuable to understand how the Navigation Component has evolved over its development.
 
 As the Predictive Back Gesture is still not working on Pixel devices running Android 13 (as mentioned here 06/04/2023) I've set ```android:enableOnBackInvokedCallback="false"``` in the AndroidManifest.xml. The update didn't only screw up Predictive Back Gesture, it also caused other problems. Note: This will disable the Predictive Back Gesture for all devices. If you want to enable it for devices that support it correctly (e.g. Samsung 13 devices), then set it back to true.
 

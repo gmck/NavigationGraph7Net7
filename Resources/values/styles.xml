@@ -14,6 +14,7 @@
 	<style name="AlertDialogRoundedCornersTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
 		<item name="materialAlertDialogTitlePanelStyle">@style/TitlePanelCenter</item>
 		<item name="materialAlertDialogTitleTextStyle">@style/TitleTextStyle</item>
+		<item name="android:windowBackground">?/attr/colorSurfaceVariant</item>
 		<item name="shapeAppearanceMediumComponent">@style/RoundShapeAppearance</item>
 	</style>
 
@@ -22,7 +23,7 @@
 	</style>
 
 	<style name="TitleTextStyle" parent="MaterialAlertDialog.Material3.Title.Text">
-		<!-- Just bold the Title.Text-->
+		<item name="android:textColor">?/attr/colorOnSurfaceVariant</item>
 		<item name="android:textStyle">normal</item>
 	</style>
 
@@ -34,6 +35,7 @@
 
 	<!--BottomSheetDialogRounded-->
 	<style name="BottomSheetDialog_Rounded" parent="@style/ThemeOverlay.Material3.BottomSheetDialog">
+		<item name="android:windowBackground">?/attr/colorSurfaceVariant</item>
 		<item name="bottomSheetStyle">@style/BottomSheet_Rounded</item>
 	</style>
 

@@ -4,7 +4,6 @@ using Android.OS;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using AndroidX.AppCompat.Widget;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
 using AndroidX.Navigation;
@@ -25,7 +24,7 @@ namespace com.companyname.navigationgraph7net7
     //adb tcpip 5555
     //adb connect 192.168.1.116:5555 for the S20
     //Must have the usb connection when typing adb tcpip 5555. once connected by wifi we can then remove the usb cable
-     
+
     //adb uninstall Mono.Android.DebugRuntime
     //adb uninstall com.companyname.whatever
     //adb shell pm uninstall -k --user 0 <package name>

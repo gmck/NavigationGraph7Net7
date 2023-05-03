@@ -11,8 +11,8 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
+        android:paddingLeft="@dimen/bottom_sheet_horizontal_margin"
+        android:paddingRight="@dimen/bottom_sheet_horizontal_margin">
 
 		<TextView
             android:id="@+id/textView_header"
@@ -20,7 +20,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:paddingTop="16dp"
-			android:textColor="?attr/colorOnSurface"
+			android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="18sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toTopOf="@+id/textView_explanation"
@@ -33,7 +33,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:singleLine="false"
-			android:textColor="?attr/colorOnSurface"
+			android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintBottom_toTopOf="@+id/switch_show_again"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -46,7 +46,7 @@
             android:layout_marginBottom="8dp"
             android:minHeight="48dp"
             android:text="@string/dont_show_again"
-			android:textColor="?attr/colorOnSurface"
+			android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:switchPadding="16dp" />
