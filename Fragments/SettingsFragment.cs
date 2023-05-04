@@ -193,7 +193,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
             UiModeManager? uiModeManager = Activity!.GetSystemService(Context.UiModeService) as UiModeManager;
             if (OperatingSystem.IsAndroidVersionAtLeast(31))    /* Build.VERSION.SdkInt >= BuildVersionCodes.S */   //Must use OperatingSystem.IsAndroidVersionAtLeast(xx) otherwise a warning  
-                uiModeManager?.SetApplicationNightMode((int)uiNightMode);  // Only avaialable on Android 12 -API31 -S and above.
+                uiModeManager!.SetApplicationNightMode((int)uiNightMode);  // Only avaialable on Android 12 -API31 -S and above.
 
             ISharedPreferencesEditor? editor = sharedPreferences!.Edit();
             editor!.PutInt("night_mode", (int)uiNightMode)!.Apply();
