@@ -1,4 +1,14 @@
 # NavigationGraph7Net7 net7.0-android33
+**May 11, 2023**
+
+Better documentation for Material 3 components at  https://github.com/material-components/material-components-android/tree/master/docs/components.
+
+So I've modified the style of AlertDialogRoundedCornersTheme to match the above documentation.
+```
+Container: backgroundTint ?attr/colorSurface
+Title color: ?attr/colorOnSurface
+Text color: ?attr/colorOnSurfaceVariant
+```
 **May 3, 2023**
 
 Rationalization of overriding the Theme Builder colours. Further to the changes made a couple of days ago, I've now removed all overridden colours except for colorPrimary and colorSecondary from the three themes. The text color of the dialogs and bottomSheetDialogs is now colorOnSurfaceVariant and the background colour of both is now colorSurfaceVariant. Unfortunately, the documentation for BottomSheetDialogs doesn't specify a colour for the text, so I've just gone with the same colour as used by standard dialogs.

@@ -81,13 +81,13 @@ namespace com.companyname.navigationgraph7net7
         #region SetStatusBarColor
         private void SetStatusBarColor()
         {
-            if (!IsNightModeActive())   
+            if (!IsNightModeActive())
             {
                 TypedValue typedValue = new();
                 Theme!.ResolveAttribute(Resource.Attribute.colorSecondary, typedValue, true);
                 int color = ContextCompat.GetColor(this, typedValue.ResourceId);
-                // 0-255 e.g. 204 -> 80% transparent - will work even if the alpha component of the colour is already set e.g. to opaque FF. See chart below
-                Window!.SetStatusBarColor(new Color(useTransparentStatusBar ? ColorUtils.SetAlphaComponent(color, 204) : color));
+                //0 - 255 e.g. 204-> 80 % transparent - will work even if the alpha component of the colour is already set e.g.to opaque FF.See chart below
+               Window!.SetStatusBarColor(new Color(useTransparentStatusBar ? ColorUtils.SetAlphaComponent(color, 204) : color));
             }
             else
                 Window!.SetStatusBarColor(new Color(Color.Black));   // Don't like the desaturated colour for statusbar with a Dark Theme 
