@@ -58,7 +58,7 @@ namespace com.companyname.navigationgraph7net7
         #region OnCreate
         protected override void OnCreate(Bundle? savedInstanceState)
         {
-            AndroidX.Core.SplashScreen.SplashScreen.InstallSplashScreen(this);
+            _ = AndroidX.Core.SplashScreen.SplashScreen.InstallSplashScreen(this);
             base.OnCreate(savedInstanceState);
 
             // System.Threading.Thread.Sleep(500). Only use for demonstration purposes in that during the SplashScrren you can easily observe the background color of the launch icon. Remove for production build.

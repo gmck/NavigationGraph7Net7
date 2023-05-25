@@ -22,10 +22,10 @@ namespace com.companyname.navigationgraph7net7.Fragments
     // Any fragment that doesn't require a menu then doesn't implement the IMenuProvider
 
     // OnPrepareMenu and onMenuClosed are missing from IMenuProvider interface
-    // See Menu Deprecations when upgrading AndroidX.Navigation.Fragment to 2.5.1 #611 Sept 2nd 2022
+    // See Menu Deprecations when upgrading AndroidX.Navigation.Fragment to 2.5.1 #611 Sept 2nd 2022 - Fixed May 25, 2023
     public class HomeFragment : Fragment, IMenuProvider
     {
-        private IMenuHost? menuHost;
+        //private IMenuHost? menuHost;  // Not required since the fix May 25, 2023 
         private bool animateFragments;
         
         // Just a test to see if I could replicate behaviour of the deprecated OnPrepareOptionsMenu. I doubt that this is the correct way to disable a menuItem - but it appears to work
@@ -56,16 +56,13 @@ namespace com.companyname.navigationgraph7net7.Fragments
             animateFragments = sharedPreferences!.GetBoolean("use_animations", false);
             enableSubscriptionInfoMenuItem = sharedPreferences.GetBoolean("showSubscriptionInfo", false);
 
-            // New with release of Xamarin.AndroidX.Navigation.Fragment 2.5.1
+            // New with release of Xamarin.AndroidX.Navigation.Fragment 2.5.1 or more accurately AndroidX.Core.View
             // see https://medium.com/tech-takeaways/how-to-migrate-the-deprecated-oncreateoptionsmenu-b59635d9fe10
-            menuHost = RequireActivity();
-            menuHost.AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
-            
-            if (enableSubscriptionInfoMenuItem)
-                menuHost.InvalidateMenu();
+            //menuHost = RequireActivity();
+            //menuHost.AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
 
-            // More concise than the above 
-            //(RequireActivity() as IMenuHost).AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed);
+            // More concise version of the above 
+            (RequireActivity() as IMenuHost).AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
 
         }
         #endregion
@@ -74,17 +71,13 @@ namespace com.companyname.navigationgraph7net7.Fragments
         public void OnCreateMenu(IMenu menu, MenuInflater menuInflater)
         {
             menuInflater.Inflate(Resource.Menu.menu_home_fragment, menu);
-            OnPrepareMenu(menu);
         }
         #endregion
 
         #region OnPrepareMenu
         public void OnPrepareMenu(IMenu menu)
         {
-            // OnPrepareMenu is missing from  IMenuProvider interface - this is a workaround.
-            // I doubt that this is the correct way to disable a menuItem - but it appears to work. Trying to implement behaviour of the deprecated OnPrepareOptionsMenu,
-            // think it should be using MenuHostHelper but not sure how to implement it - still trying to figure it out.
-
+            // OnPrepareMenu as well as OnMenuClosed (which is not used here ) was missing from IMenuProvider. Fixed May 25, 2023 
             IMenuItem? menuItemSettings = menu.FindItem(Resource.Id.action_subscription_info);
             menuItemSettings!.SetEnabled(enableSubscriptionInfoMenuItem);
         }

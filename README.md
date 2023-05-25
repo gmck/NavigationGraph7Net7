@@ -1,4 +1,10 @@
-# NavigationGraph7Net7 net7.0-android33
+# NavigationGraph7Net7 : net7.0-android33
+**May 25 2023**
+
+Updated NuGet packages were just released. These include the long awaited fixes for the missing methods OnPrepareMenu and OnMenuClosed. The work arounds in the HomeFragment have now been removed and replaced with the new methods. 
+
+Please note that I've deliberately set android:enableOnBackInvokedCallback="false" in the androidmanifest.xml. Google keep asking me for more information, even though I've supplied them with a project, so I'm not sure when it will get fixed. I'd be very interested in any feedback that others may have as it is possible this only effects Pixel devices in Australia.
+
 **May 12, 2023**
 
 Better documentation for Material 3 components at  https://github.com/material-components/material-components-android/tree/master/docs/components.
