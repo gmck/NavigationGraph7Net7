@@ -65,6 +65,8 @@ namespace com.companyname.navigationgraph7net7
                 widgetsFragment.HandleOnBackPressed(navOptions);
             else if (fragment is PurchaseFragment purchaseFragment)
                 purchaseFragment.HandleOnBackPressed(navOptions);
+            else if (fragment is MaintenanceFileSelectionFragment maintenanceFileSelectionFragment)
+                maintenanceFileSelectionFragment.HandleOnBackPressed(navOptions);
 
         }
     } 

@@ -6,9 +6,12 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
+using AndroidX.Lifecycle;
 using AndroidX.Navigation;
 using AndroidX.Navigation.Fragment;
 using AndroidX.Navigation.UI;
+using AndroidX.Preference;
+using com.companyname.navigationgraph7net7.Dialogs;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomNavigation;
 using Google.Android.Material.Navigation;
@@ -35,7 +38,7 @@ namespace com.companyname.navigationgraph7net7
     [Activity(Label = "@string/app_name", MainLauncher = true)]  //Theme = "@style/Theme.NavigationGraph.RedBmw", no required here - handled by postSplashScreenTheme, see Styles.xml
     public class MainActivity : BaseActivity, IOnApplyWindowInsetsListener,
                                 NavController.IOnDestinationChangedListener,
-                                NavigationView.IOnNavigationItemSelectedListener
+                                NavigationView.IOnNavigationItemSelectedListener//, IMenuProvider
     {
 
         private readonly string logTag = "navigationGraph7";
@@ -51,9 +54,14 @@ namespace com.companyname.navigationgraph7net7
         private bool devicesWithNotchesAllowFullScreen;             // allow full screen for devices with notches
         private bool animateFragments;                              // animate fragments 
         private bool resetHelperExplanationDialogs;
+        //private bool enableSubscriptionInfoMenuItem;
+        //private bool showFileMaintenanceExplanationDialog;
         
         // The following fragments are immersive fragments - see SetShortEdgesIfRequired
         private List<int>? immersiveFragmentsDestinationIds;
+
+        
+        
 
         #region OnCreate
         protected override void OnCreate(Bundle? savedInstanceState)
@@ -62,7 +70,7 @@ namespace com.companyname.navigationgraph7net7
             base.OnCreate(savedInstanceState);
 
             // System.Threading.Thread.Sleep(500). Only use for demonstration purposes in that during the SplashScrren you can easily observe the background color of the launch icon. Remove for production build.
-            
+
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
 
@@ -97,6 +105,8 @@ namespace com.companyname.navigationgraph7net7
             // Add the DestinationChanged listener
             navController.AddOnDestinationChangedListener(this);
         }
+
+
         #endregion
 
         #region OnApplyWindowInsets
@@ -110,7 +120,7 @@ namespace com.companyname.navigationgraph7net7
                 SetTopMargin(v, statusBarsInsets);
 
                 // Appear never to need displayCutout because it is always null
-                if (OperatingSystem.IsAndroidVersionAtLeast(28)) 
+                if (OperatingSystem.IsAndroidVersionAtLeast(28))
                 {
                     if (insets.DisplayCutout != null)
                         Window!.Attributes!.LayoutInDisplayCutoutMode = devicesWithNotchesAllowFullScreen ? LayoutInDisplayCutoutMode.ShortEdges : LayoutInDisplayCutoutMode.Default;
@@ -208,6 +218,8 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
+        
+
         #region BottomNavigationViewItemSelected
         private void BottomNavigationView_ItemSelected(object sender, NavigationBarView.ItemSelectedEventArgs e)
         {
@@ -250,6 +262,7 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
+        
         #region OnDestinationChanged
         public void OnDestinationChanged(NavController navController, NavDestination navDestination, Bundle? bundle)
         {
@@ -261,11 +274,19 @@ namespace com.companyname.navigationgraph7net7
             // The slideshowFragment contains a BottomNavigationView. We only want to show the BottomNavigationView when the SlideshowFragment is displayed.
             bottomNavigationView!.Visibility = navDestination.Id == Resource.Id.slideshow_fragment ? ViewStates.Visible : ViewStates.Gone;
 
-            // By default because the LeaderboardPagerFragment and the RegisterFragment are not top level fragments, they will default to showing an up button (left arrow) plus the title.
+            // By default because the LeaderboardPagerFragment, RegisterFragment and MaintenanceFileSelectionFragment are not top level fragments,
+            // they will default to showing an up button (left arrow) plus the title.
             // If you don't want the up button, remove it here.  
-            if (navDestination.Id == Resource.Id.leaderboardpager_fragment || navDestination.Id == Resource.Id.register_fragment || navDestination.Id == Resource.Id.race_result_fragment)
+
+            // As of May 25, 2023 we now have the missing OnPrepareMenu (so we can complete the transition to using the methods of IMenuProvider
+            // However without removing the the NavigationIcon (back arrow) the menu of the new fragment
+            // MaintenaceFileSelectionFragment would fail to show. If we remove the NavigationIcon it then shows.
+
+            // if you have many fragments that are not top level fragments and they have menus, then maybe we need List<int> of their destinationIds, we could then
+            // use similar code to how we handle immersivefragments as in SetShortEdgesIfRequired to remove the icon from the fragment with a menu
+            if (navDestination.Id == Resource.Id.leaderboardpager_fragment || navDestination.Id == Resource.Id.register_fragment)  // || navDestination.Id == Resource.Id.maintenance_file_selection_fragment) // See OnViewCreated in MaintenanceFileSelectionFragment
             {
-                toolbar!.Title = navDestination.Label;   
+                toolbar!.Title = navDestination.Label;
                 toolbar.NavigationIcon = null;
             }
 
@@ -274,6 +295,7 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
+        
         #region CheckForPreferenceChanges
         private void CheckForPreferenceChanges()
         {
@@ -285,6 +307,7 @@ namespace com.companyname.navigationgraph7net7
                 ISharedPreferencesEditor? editor = sharedPreferences.Edit();
                 editor!.PutBoolean("showSubscriptionExplanationDialog", true);
                 editor.PutBoolean("helper_screens", false);
+                editor.PutBoolean("showFileMaintenanceExplanationDialog", true);
                 editor.Commit();
             }
             
@@ -336,6 +359,19 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
+        #region ShowSubscriptionInfoDialog - Moved from the MainActivity to HomeFragment.
+        //private void ShowSubscriptionInfoDialog(string title, string explanation)
+        //{
+        //    string tag = "SubscriptionInfoDialogFragment";
+        //    AndroidX.Fragment.App.FragmentManager? fm = SupportFragmentManager!;
+        //    if (fm != null && !fm.IsDestroyed)
+        //    {
+        //        AndroidX.Fragment.App.Fragment? fragment = fm.FindFragmentByTag(tag);
+        //        if (fragment == null)
+        //            BasicDialogFragment.NewInstance(title, explanation).Show(fm, tag);
+        //    }
+        //}
+        #endregion
     }
 }
 
@@ -447,3 +483,5 @@ namespace com.companyname.navigationgraph7net7
 //    return insets;
 //}
 #endregion
+
+

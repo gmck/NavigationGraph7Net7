@@ -1,13 +1,12 @@
 <resources>
 	<string name="app_name">NavigationGraph7Net7</string>
-	<!--<string name="app_text">Hello, Android!</string>-->
-
-	<!--<string name="app_name">NavigationGraph 7</string>-->
+	
 	<string name="navigation_header_title">Android Navigator</string>
 	<string name="navigation_header_sub_title">How to navigate</string>
 	<string name="action_subscription_info">Subscription Information</string>
 	<string name="action_settings">Settings</string>
-
+	<string name="action_logFilesMaintenance">Maintenance - log files</string>
+	
 	<string name="menu_home">Home</string>
 	<string name="menu_gallery">Gallery</string>
 	<string name="menu_slideshow">Slideshow</string>
@@ -89,6 +88,7 @@
 
 	<string name="toast_message">You selected the Register menu item.</string>
 	<string name="dont_show_again">Don\'t show this message again</string>
+	
 	<!--Deliberately shortend this message-->
 	<string name="subscription_explanation_text_short">
 		Google Play continues to add and enhance features to Subscription Purchases. They have added features such as Account Hold, Subscription Pause, Subscription Restore and the flexability to be able to Upgrade
@@ -101,6 +101,33 @@
 		\n\nGoogle servers store Subscription date information in UTC format, we convert those dates to your local datetime format.
 		\n\nFor a full discussion re the latest Google Play Subscription features and an example screenshot please refer to our User Guide.
 	</string>
+	
+	<string name="diagnostic_files">Diagnostic Files</string>
+	<string name="data_files">Data Files</string>
+	<string name="file_maintenance_explanation_title">File Maintenance</string>
+
+	<string name="file_maintenance_explanation">
+		This window allows viewing, copying, deleting, sharing and emailing of both the log files and the data log files that have been generated.
+		\n\nIn previous versions of our apps, all log files were stored in External Storage. To do that the app needed to have the ability to read and write to External Storage. Google consider reading and writing to external storage a Dangerous Permission, therefore the apps had to request that permission from the user before we could write those files. That was the standard way most apps wrote to External Storage since Android 6 when permissions were first introduced.
+		\n\nWith the release of Android 10 and even more so in Android 11 and 12 major changes were required by Google.  Now instead of writing the log files to external storage, all our log files are written to the internal storage of the app itself.
+		\n\nThis in turn has meant we have had to revise the way that we make these files available to you. The procedure is more complex, therefore we recommend that you read the section in our User Guide (search for File Maintenance) to become familiar with the procedure. Remember that these files are your files, your data etc and you are free to use them any way you wish.
+	</string>
+	
+	
+	<!--MaintenanceFileSelectionFragment-->
+	<string name="action_toggle_files">Toogle File Selections</string>
+	<string name="action_show_diagnostic_files">Show Diagnostic files</string>
+	<string name="action_show_data_files">Show data files</string>
+	<string name="action_delete_files">Delete selected file(s)</string>
+	<string name="action_view_file">View selected file</string>
+	<string name="action_email_file">Email selected file</string>
+	<string name="action_copy_file">Copy selected file to storage</string>
+	<string name="action_get_permission">Obtain File Permissions</string>
+	<!--MaintenanceFileSelectionFragment-->
+
+	<string name="show_diagnostic_files">Show Diagnostic files</string>
+	<string name="permission_for_files">You selected the Get Permissions menu Item</string>
+	<string name="file_maintenance">List of diagnostic files</string>
 
 	
 </resources>

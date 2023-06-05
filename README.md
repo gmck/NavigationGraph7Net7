@@ -1,4 +1,54 @@
 # NavigationGraph7Net7 : net7.0-android33
+**June 5, 2023**
+
+***Menu changes in Android Apps*** 
+
+I have added an extra fragment in this version of NavigationGraph7Net7 called MaintenanceFileSelectionFragment which further demonstrates how to use the IMenuProvider and the IMenuHost interfaces for when you need a menu on a fragment that is selected via the 3 dot menu normally associated with the MainActivity.
+
+There are significant changes for apps with the use of the new IMenuProvider interface and the  IMenuHost interface with the release of AndroidX.Core.View in Xamarin.AndroidX.Core.
+
+I first started experimenting with IMenuProvider and IMenuHost in September 2022 and realised pretty much straight away that using them was going to cause a restructuring of the menus in my apps. My apps had always been based on Xamarin’s NavigationDrawer template. So effectively you had two ways of navigating either via the Navigation Drawer or via the 3 dot menu of the MainActivity.
+
+I used the NavigationView of the Navigation Drawer for all the fragments that related to the actual operation of the app and the 3 dot menu of the MainActivity for maintenance-type features, e.g. SettingsFragment, GoogleSignInFragment,  Purchase a SubscriptionFragment,  Privacy Policy Dialog, About Dialog, Help Display, Revision History dialog etc.
+
+The quirky part of that was that these fragments then automatically inherited the same 3-dot menu as every fragment of the 3-dot menu inherited that menu unless you created a new menu for a particular fragment. For instance, most of these fragments did not require a 3 dot menu, so the way around that was to then remove the MainActivity’s menu using HasOptionsMenu = true in the OnCreate of those fragments and then in the OnCreateOptionsMenu immediately call menu.Clear(). 
+
+Therefore you repeated the same sort of code for every fragment that did not require a menu. If a fragment called from the MainActivity’s 3 dot menu did require a menu, then you simply created a menu for it, but first, **you still had to call menu.Clear()** to clear the MainActivity’s menu before inflating the new menu for that fragment. Hence my term “quirky”. 
+
+All was fine, if not quirky, until a new version of AndroidX.Core.View arrived in September 2022, introduced via upgrading Xamarin.AndroidX.Navigation.Fragment from 2.4.2 to 2.5.1. The following methods were deprecated  OnCreateOptionsMenu, OnPrepareOptionsMenu, OnOptionsItemSelected and HasMenuOptions or more technically Java’s SetHasMenuOptions(bool). 
+
+These methods were replaced with the IMenuProvider interface methods OnCreateMenu, OnPrepareMenu, OnMenuItemSelected and OnMenuClosed. Unfortunately, two methods were missing from the IMenuProvider interface in the AndroidX.Core.View package, onPrepareMenu and OnMenuClosed. Fortunately, those two missing methods have now (May 2023) been added.
+
+Therefore instead of the menu belonging to the MainActivity, the equivalent menu now belongs to the StartDestination fragment as in this example the HomeFragment. There is now no 3 dot menu associated with the MainActivity.
+
+So what do you do about a fragment such as the SettingsFragment that doesn’t have a menu? Answer absolutely nothing (other than remove the old menu code) and so say goodbye to the quirkiness of before.
+
+The following is a quote from Ian Lake of Google from an answer on StackOverflow.
+
+***AndroidX ComponentActivity [and its subclasses of FragmentActivity and AppCompatActivity] now implements the MenuHost interface. This allows any component to add menu items to the ActionBar by adding a MenuProvider instance to the activity. Each MenuProvider can optionally be added with a Lifecycle that will automatically control the visibility of those menu items based on the Lifecycle state and handle the removal of the MenuProvider when the Lifecycle is destroyed.***
+
+He then goes on to make the following three points.
+
+
+1.	A single MenuProvider should only be touching its Menu Items. You should never, ever, ever be "clearing all menu items" or anything that affects another component's menu items.
+
+2.	By calling addMenuProvider with a Lifecycle (in this case, the Fragment view's Lifecycle - i.e., the one that only exists when the Fragment's view is on screen), then you automatically hide the menu items when your Fragment's view is destroyed (when your replace call happens) and automatically reshown when your fragment's view re-appears (i.e., when the back stack is popped).
+3.	That the fragment itself that is controlling the Lifecycle and visibility of the menu items should be the one creating and handling its own menu items. Your activity (which can add its own MenuProvider as seen in the other example) should only be adding menu items that exist for the entire Lifecycle of the activity (items that are visible on all fragments).
+
+The replacement methods are coded much the same as the original methods. The only difference is in the setup of the menu and the slight change in the method names by removing “options”. We now use the AddMenuProvider method of the IMenuHost interface. There are 3 AddMenuProvider methods. The third method is recommended for use with fragments.
+```
+void AddMenuProvider(IMenuProvider p0, ILifecycleOwner p1, AndroidX.Lifecycle.Lifecycle.State p2);
+```
+
+and the easiest way to use it is as follows in the OnViewCreated of the fragment
+```
+(RequireActivity() as IMenuHost).AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
+```
+
+A fragment with a menu shouldn’t have an up button on the ActionBar. Whereas the SettingsFragment which doesn’t have a menu, does have an up button. I’ve found a couple of ways of removing the up button – see one way the code in OnDestinationChange in the MainActivity, however, I would have thought the more appropriate choice is to remove the back button within the fragment code in OnViewCreated as in this new fragment example.
+
+Please note that the MaintenanceFileSelectionFragment is not meant to be complete as far as functionality as it was borrowed from one of my apps for testing purposes for the new menu code.
+
 **May 25 2023**
 
 Updated NuGet packages were just released. These include the long awaited fixes for the missing methods OnPrepareMenu and OnMenuClosed. The work arounds in the HomeFragment have now been removed and replaced with the new methods. 

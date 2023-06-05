@@ -17,6 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Fragments\MaintenanceFileSelectionFragmentOld.cs" />
 		<Compile Remove="NavActivityOnBackPressedCallback.cs" />
 		<Compile Remove="NavigationGraph7Application.cs" />
 		<Compile Remove="NavigationGraphOnBackPressedCallback.cs" />
@@ -33,6 +34,7 @@
 		<None Remove="Resources\drawable\bmw_green.jpg" />
 		<None Remove="Resources\drawable\bmw_green.webp" />
 		<None Remove="Resources\drawable\default_dot.xml" />
+		<None Remove="Resources\drawable\ic_baseline_checkbox_24dp.xml" />
 		<None Remove="Resources\drawable\ic_feedback.xml" />
 		<None Remove="Resources\drawable\ic_home.xml" />
 		<None Remove="Resources\drawable\ic_list.xml" />
@@ -51,6 +53,7 @@
 		<None Remove="Resources\layout\fragment_home.xml" />
 		<None Remove="Resources\layout\fragment_leaderboard.xml" />
 		<None Remove="Resources\layout\fragment_leaderboard_viewpager.xml" />
+		<None Remove="Resources\layout\fragment_maintenance_file_selection.xml" />
 		<None Remove="Resources\layout\fragment_purchase.xml" />
 		<None Remove="Resources\layout\fragment_raceresult.xml" />
 		<None Remove="Resources\layout\fragment_register.xml" />
@@ -64,6 +67,7 @@
 		<None Remove="Resources\layout\nav_header.xml" />
 		<None Remove="Resources\menu\activity_main_drawer.xml" />
 		<None Remove="Resources\menu\bottom_nav.xml" />
+		<None Remove="Resources\menu\menu_file_maintenance.xml" />
 		<None Remove="Resources\menu\menu_home_fragment.xml" />
 		<None Remove="Resources\menu\menu_register_fragment.xml" />
 		<None Remove="Resources\mipmap-anydpi-v26\appicon.xml" />

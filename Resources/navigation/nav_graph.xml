@@ -42,6 +42,13 @@
 		android:id="@+id/settingsFragment"
 		android:name="com.companyname.navigationgraph7net7.fragments.SettingsFragment"
 		android:label="Settings"/>
+	
+	<!--not a top destination-->
+	<fragment		   
+	  android:id="@+id/maintenance_file_selection_fragment"
+	  android:name="com.companyname.navigationgraph7net7.fragments.MaintenanceFileSelectionFragment"
+	  android:label="File Maintenance"
+	  tools:layout="@layout/fragment_maintenance_file_selection"/>
 
 	<!--not a top destination-->
 	<fragment
@@ -62,5 +69,7 @@
 		android:name="com.companyname.navigationgraph7net7.fragments.RaceResultFragment"
 		android:label="Race Result"
         tools:layout="@layout/fragment_race_result"/>
+
+	
 </navigation>
 

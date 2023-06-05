@@ -25,7 +25,6 @@ namespace com.companyname.navigationgraph7net7.Fragments
     // See Menu Deprecations when upgrading AndroidX.Navigation.Fragment to 2.5.1 #611 Sept 2nd 2022 - Fixed May 25, 2023
     public class HomeFragment : Fragment, IMenuProvider
     {
-        //private IMenuHost? menuHost;  // Not required since the fix May 25, 2023 
         private bool animateFragments;
         
         // Just a test to see if I could replicate behaviour of the deprecated OnPrepareOptionsMenu. I doubt that this is the correct way to disable a menuItem - but it appears to work
@@ -58,12 +57,12 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
             // New with release of Xamarin.AndroidX.Navigation.Fragment 2.5.1 or more accurately AndroidX.Core.View
             // see https://medium.com/tech-takeaways/how-to-migrate-the-deprecated-oncreateoptionsmenu-b59635d9fe10
-            //menuHost = RequireActivity();
-            //menuHost.AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
+            IMenuHost menuHost = RequireActivity();
+            menuHost.AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
 
-            // More concise version of the above 
-            (RequireActivity() as IMenuHost).AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
-
+            // A more concise version of the above 
+            //(RequireActivity() as IMenuHost).AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
+            
         }
         #endregion
 
@@ -90,7 +89,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
                 AnimationResource.Fader2();
             else
                 AnimationResource.Slider();
-            
+
             NavOptions navOptions = new NavOptions.Builder()
                     .SetLaunchSingleTop(true)
                     .SetEnterAnim(AnimationResource.EnterAnimation)
@@ -105,6 +104,10 @@ namespace com.companyname.navigationgraph7net7.Fragments
             {
                 case Resource.Id.action_settings:
                     Navigation.FindNavController(Activity!, Resource.Id.nav_host).Navigate(Resource.Id.settingsFragment, null, navOptions);
+                    return true;
+
+                case Resource.Id.action_logfiles:
+                    Navigation.FindNavController(Activity!, Resource.Id.nav_host).Navigate(Resource.Id.maintenance_file_selection_fragment, null, navOptions);
                     return true;
 
                 case Resource.Id.action_subscription_info:
