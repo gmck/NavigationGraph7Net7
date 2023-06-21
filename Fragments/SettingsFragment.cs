@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.OS;
 using AndroidX.AppCompat.App;
+using AndroidX.Navigation;
 using AndroidX.Preference;
 using System;
 
@@ -12,6 +13,8 @@ namespace com.companyname.navigationgraph7net7.Fragments
         private ISharedPreferences? sharedPreferences;
         private ColorThemeListPreference? colorThemeListPreference;
         private SystemThemeListPreference? systemThemeListPreference;
+
+        private NavFragmentOnBackPressedCallback? onBackPressedCallback;
 
         #region OnCreatePreferences
         public override void OnCreatePreferences(Bundle? savedInstanceState, string? rootKey)
@@ -67,6 +70,23 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
         }
         #endregion
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, true);
+            //// Android docs:  Strongly recommended to use the ViewLifecycleOwner.This ensures that the OnBackPressedCallback is only added when the LifecycleOwner is Lifecycle.State.STARTED.
+            //// The activity also removes registered callbacks when their associated LifecycleOwner is destroyed, which prevents memory leaks and makes it suitable for use in fragments or other lifecycle owners
+            //// that have a shorter lifetime than the activity.
+            //// Note: this rule out using OnAttach(Context context) as the view hasn't been created yet.
+            //RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
+        }
+        public override void OnDestroy()
+        {
+            onBackPressedCallback?.Remove();
+            base.OnDestroy();
+        }
+        
 
         #region CheckboxDarkThemePreference_PreferenceChange
         private void CheckboxDarkThemePreference_PreferenceChange(object? sender, Preference.PreferenceChangeEventArgs e)
@@ -207,5 +227,16 @@ namespace com.companyname.navigationgraph7net7.Fragments
             AppCompatDelegate.DefaultNightMode = requestedNightMode ? AppCompatDelegate.ModeNightYes : AppCompatDelegate.ModeNightNo;
         }
         #endregion
+
+        public void HandleOnBackPressed(NavOptions navOptions)
+        {
+            onBackPressedCallback!.Enabled = false;
+
+            NavController navController = Navigation.FindNavController(Activity!, Resource.Id.nav_host);
+
+            // Navigate back to the HomeFragment
+            //navController.PopBackStack(Resource.Id.home_fragment, false);
+            navController.Navigate(Resource.Id.home_fragment, null, navOptions);
+        }
     }
 }

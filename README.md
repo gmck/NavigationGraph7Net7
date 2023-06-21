@@ -1,4 +1,32 @@
 # NavigationGraph7Net7 : net7.0-android33
+**June 21, 2023**
+
+Renamed WidgetsFragment to MaterialWidgetsFragment
+Added Fader3() to AnimationResource.cs.
+Also Added ActivityResultCallback.cs - not using though
+
+Commented out RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback) in all the fragments.
+
+***SetPopUp***
+
+Added .SetPopUpTo(Resource.Id.home_fragment, false, true) to NavOptions in OnNavigationItemSelected of the MainActivity.  Also did the same to NavOptions in the OnMenuItemSelected of the HomeFragment.
+
+Additionally added SetPopUpTo(Resource.Id.slideshow_fragment, false, true) to NavOptions in BottomNavigationViewItemSelected.
+
+Effectively this now means we don't have a use for the NavFragmentOnBackPressedCallback. These changes appear to allow the same functionality as was provided by the OnBackPressedCallback. The reason for the changes is with Android 14 approaching, I'm looking for the same functionality the OnBackPressedCallback provided. However, we now know from previous experiments with the Predictive Back Gesture that the callback had to be removed from the HomeFragment in order for the Predictive Back Gesture to work. So I'm hoping that the above changes will allow the Predictive Back Gesture to work as it does in this version at least on Samsung devices. 
+
+As mentioned previously PBG stopped working on my Pixel 6 with the release of March update. Exactly the same happened with a new Pixel 7. It also displayed the PBG until it also had the March update. Google is warning developers that back navigation will be broken in their apps if they don’t support this feature when it’s enforced.
+
+  Evidently Android14 has an OnBackAnimationCallback, but I've not seen any documentation.
+
+  ***The old code is still there in each fragments and the NavFragmentOnBackPressedCallback, but the code is now commented out.***
+
+  One of my apps required Bluetooth Permissions, so as a test I've added a Bluetooth Permissions check in this version. In that app in the SettingsFragment the user can choose from different paired Bluetooth devices, hence the permission requirement for devices running Android 12+. In the real app a HelperExplanationDialog is used to explain to the user that the permission request is about to requested. Here I haven't bothered with the dialog, so now when opening the Settings fragment from the 3-dot menu you will see the Permissions request. There is no effect on this app as it doesn't use Bluetooth. 
+  
+  Unfortunately even though the code works it is not the solution I'm looking for.  OnRequestPermissionsResult has been deprecated in AndroidX.Fragment.App.Fragment.
+  
+  The new way is to use ActivityResultCallback and an ActivityResultLauncher.  However, I haven't as yet worked out how to get it to wotk.
+
 **June 5, 2023**
 
 ***Menu changes in Android Apps*** 

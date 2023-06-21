@@ -1,16 +1,20 @@
 ﻿using Android.App;
+using Android.Bluetooth;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
+using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Activity.Result;
+using AndroidX.Activity.Result.Contract;
 using AndroidX.Core.View;
 using AndroidX.DrawerLayout.Widget;
-using AndroidX.Lifecycle;
+using AndroidX.Fragment.App;
 using AndroidX.Navigation;
 using AndroidX.Navigation.Fragment;
 using AndroidX.Navigation.UI;
-using AndroidX.Preference;
 using com.companyname.navigationgraph7net7.Dialogs;
 using Google.Android.Material.AppBar;
 using Google.Android.Material.BottomNavigation;
@@ -26,6 +30,7 @@ namespace com.companyname.navigationgraph7net7
     //adb connect 192.168.1.102:5555 connected to 192.168.1.102:5555 - Pixel6
     //adb tcpip 5555
     //adb connect 192.168.1.116:5555 for the S20
+    //adb connect 192.168.1.131:5555 for the Pixel 7
     //Must have the usb connection when typing adb tcpip 5555. once connected by wifi we can then remove the usb cable
 
     //adb uninstall Mono.Android.DebugRuntime
@@ -35,11 +40,12 @@ namespace com.companyname.navigationgraph7net7
 
     //https://proandroiddev.com/handling-back-press-in-android-13-the-correct-way-be43e0ad877a
 
-    [Activity(Label = "@string/app_name", MainLauncher = true)]  //Theme = "@style/Theme.NavigationGraph.RedBmw", no required here - handled by postSplashScreenTheme, see Styles.xml
+    [Activity(Label = "@string/app_name", MainLauncher = true)]  //Theme = "@style/Theme.NavigationGraph.RedBmw", not required here - handled by postSplashScreenTheme, see Styles.xml
     public class MainActivity : BaseActivity, IOnApplyWindowInsetsListener,
                                 NavController.IOnDestinationChangedListener,
-                                NavigationView.IOnNavigationItemSelectedListener//, IMenuProvider
+                                NavigationView.IOnNavigationItemSelectedListener
     {
+        private const int BLUETOOTH_PERMISSIONS_REQUEST_CODE = 9999;
 
         private readonly string logTag = "navigationGraph7";
 
@@ -49,6 +55,11 @@ namespace com.companyname.navigationgraph7net7
         private BottomNavigationView? bottomNavigationView;
         private NavController? navController;
         private MaterialToolbar? toolbar;
+
+        // Just added for the Bluetooth permissions example.
+        internal BluetoothAdapter? bluetoothAdapter = null;
+        internal ActivityResultCallback? activityResultCallback;
+        internal ActivityResultLauncher? bluetoothEnablerResultLauncher;
 
         // Preference variables - see OnDestinationChanged where they are checked
         private bool devicesWithNotchesAllowFullScreen;             // allow full screen for devices with notches
@@ -60,13 +71,11 @@ namespace com.companyname.navigationgraph7net7
         // The following fragments are immersive fragments - see SetShortEdgesIfRequired
         private List<int>? immersiveFragmentsDestinationIds;
 
-        
-        
-
         #region OnCreate
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             _ = AndroidX.Core.SplashScreen.SplashScreen.InstallSplashScreen(this);
+            
             base.OnCreate(savedInstanceState);
 
             // System.Threading.Thread.Sleep(500). Only use for demonstration purposes in that during the SplashScrren you can easily observe the background color of the launch icon. Remove for production build.
@@ -104,9 +113,16 @@ namespace com.companyname.navigationgraph7net7
 
             // Add the DestinationChanged listener
             navController.AddOnDestinationChangedListener(this);
+
+
+            // Added 13/06/2023 for the Bluetooth permissions example.
+            BluetoothManager? manager = Application.Context.GetSystemService(Application.BluetoothService) as BluetoothManager;
+            bluetoothAdapter = manager!.Adapter;
+
+            activityResultCallback = new ActivityResultCallback();
+            activityResultCallback!.OnActivityResultCalled += ActivityResultCallback_ActivityResultCalled;
+            bluetoothEnablerResultLauncher = RegisterForActivityResult(new ActivityResultContracts.StartActivityForResult(), activityResultCallback);
         }
-
-
         #endregion
 
         #region OnApplyWindowInsets
@@ -171,7 +187,7 @@ namespace com.companyname.navigationgraph7net7
         {
             // Using Fader2 as the default as animateFragment is false by default - check AnimationResource.cs for different animations
             if (!animateFragments)
-                AnimationResource.Fader2();
+                AnimationResource.Fader3();
             else
                 AnimationResource.Slider();
 
@@ -181,6 +197,7 @@ namespace com.companyname.navigationgraph7net7
                     .SetExitAnim(AnimationResource.ExitAnimation)
                     .SetPopEnterAnim(AnimationResource.PopEnterAnimation)
                     .SetPopExitAnim(AnimationResource.PopExitAnimation)
+                    .SetPopUpTo(Resource.Id.home_fragment, false, true)     // Inclusive false, saveState true. Accidently left this out which screwed up the backstack - see comments in each fragment's HandleOnBackPressed method
                     .Build();
 
             bool proceed = false;
@@ -218,14 +235,12 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
-        
-
         #region BottomNavigationViewItemSelected
         private void BottomNavigationView_ItemSelected(object sender, NavigationBarView.ItemSelectedEventArgs e)
         {
             // Note NavigationBarView - not BottomNavigationView probably not what is expected. Note that BottomNavigationView inherits from NavigationBarView. See notes in NavigationGraph.docx
             if (!animateFragments)
-                AnimationResource.Fader2();
+                AnimationResource.Fader3();
             else
                 AnimationResource.Slider();
 
@@ -234,7 +249,8 @@ namespace com.companyname.navigationgraph7net7
                     .SetEnterAnim(AnimationResource.EnterAnimation)
                     .SetExitAnim(AnimationResource.ExitAnimation)
                     .SetPopEnterAnim(AnimationResource.PopEnterAnimation)
-                    .SetPopExitAnim(AnimationResource.PopExitAnimation)
+                    .SetPopExitAnim(AnimationResource.PopExitAnimation)          
+                    .SetPopUpTo(Resource.Id.slideshow_fragment, false, true)  // No .SetPopUpTo(Resource.Id.home_fragment, false, true) here - because here it is the slideShow fragment
                     .Build();
             
             Log.Debug(logTag, "Navigate to - Enter Animation " + navOptions.EnterAnim.ToString());
@@ -246,7 +262,6 @@ namespace com.companyname.navigationgraph7net7
 
             switch (e.Item.ItemId)
             {
-                //case Resource.Id.holding_fragment:
                 case Resource.Id.leaderboardpager_fragment:
                 case Resource.Id.register_fragment:
                 case Resource.Id.race_result_fragment:
@@ -262,7 +277,6 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
-        
         #region OnDestinationChanged
         public void OnDestinationChanged(NavController navController, NavDestination navDestination, Bundle? bundle)
         {
@@ -284,7 +298,8 @@ namespace com.companyname.navigationgraph7net7
 
             // if you have many fragments that are not top level fragments and they have menus, then maybe we need List<int> of their destinationIds, we could then
             // use similar code to how we handle immersivefragments as in SetShortEdgesIfRequired to remove the icon from the fragment with a menu
-            if (navDestination.Id == Resource.Id.leaderboardpager_fragment || navDestination.Id == Resource.Id.register_fragment)  // || navDestination.Id == Resource.Id.maintenance_file_selection_fragment) // See OnViewCreated in MaintenanceFileSelectionFragment
+            // See an alternative method of removing the NavigationIcon in the OnViewCreated of MaintenanceFileSelectionFragment
+            if (navDestination.Id == Resource.Id.leaderboardpager_fragment || navDestination.Id == Resource.Id.register_fragment)  // || navDestination.Id == Resource.Id.maintenance_file_selection_fragment) 
             {
                 toolbar!.Title = navDestination.Label;
                 toolbar.NavigationIcon = null;
@@ -294,7 +309,6 @@ namespace com.companyname.navigationgraph7net7
             SetShortEdgesIfRequired(navDestination);
         }
         #endregion
-
         
         #region CheckForPreferenceChanges
         private void CheckForPreferenceChanges()
@@ -359,20 +373,92 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
-        #region ShowSubscriptionInfoDialog - Moved from the MainActivity to HomeFragment.
-        //private void ShowSubscriptionInfoDialog(string title, string explanation)
-        //{
-        //    string tag = "SubscriptionInfoDialogFragment";
-        //    AndroidX.Fragment.App.FragmentManager? fm = SupportFragmentManager!;
-        //    if (fm != null && !fm.IsDestroyed)
-        //    {
-        //        AndroidX.Fragment.App.Fragment? fragment = fm.FindFragmentByTag(tag);
-        //        if (fragment == null)
-        //            BasicDialogFragment.NewInstance(title, explanation).Show(fm, tag);
-        //    }
-        //}
+        #region OnRequestPermissionsResult
+        // This is also used by the SettingsFragment - see MenuItemSelected in the HomeFragment
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            if (requestCode == BLUETOOTH_PERMISSIONS_REQUEST_CODE)
+            {
+                bool permissionsGranted = grantResults.All(result => result == Permission.Granted);
+                if (permissionsGranted)
+                {
+                    // Permissions granted, perform necessary actions
+                    EnsureBluetoothEnabled();
+                    navController!.Navigate(Resource.Id.settingsFragment);
+                }
+                else
+                    ShowMissingPermissionDialog(this, GetString(Resource.String.missing_permission_title), GetString(Resource.String.missing_permission_explanation));
+
+                return;
+            }
+        }
+        #endregion
+
+        #region ShowMissingPermissionDialog
+        public static void ShowMissingPermissionDialog(FragmentActivity activity, string title, string explanation)
+        {
+            string tag = "ShowMissingPermissionDialog";
+            AndroidX.Fragment.App.FragmentManager fm = activity.SupportFragmentManager;
+            if (fm != null && !fm.IsDestroyed)
+            {
+                AndroidX.Fragment.App.Fragment? fragment = fm.FindFragmentByTag(tag);
+                if (fragment == null)
+                    BasicDialogFragment.NewInstance(title, explanation).Show(fm, tag);
+            }
+        }
+        #endregion
+
+        #region ShowBluetoothConfirmationDialog
+        private void ShowBluetoothConfirmationDialog(string title, string explanation)
+        {
+            string tag = "BluetoothConfirmationDialogFragment";
+            AndroidX.Fragment.App.FragmentManager fm = SupportFragmentManager;
+            if (fm != null && !fm.IsDestroyed)
+            {
+                AndroidX.Fragment.App.Fragment? fragment = fm.FindFragmentByTag(tag);
+                if (fragment == null)
+                    BasicDialogFragment.NewInstance(title, explanation).Show(fm, tag);
+            }
+        }
+        #endregion
+
+        #region EnsureBluetoothEnabled
+        private void EnsureBluetoothEnabled()
+        {
+            if ((bluetoothAdapter != null) && (!bluetoothAdapter.IsEnabled))
+                bluetoothEnablerResultLauncher!.Launch(new Intent(BluetoothAdapter.ActionRequestEnable));
+        }
+        #endregion
+
+        #region ActivityResultCallback_ActivityResultCalled
+        private void ActivityResultCallback_ActivityResultCalled(object? sender, ActivityResult e)
+        {
+            string message;
+            
+            if (e.ResultCode == (int)Result.Ok)
+            {
+                if (bluetoothAdapter!.State == State.On)
+                {
+                    message = GetString(Resource.String.bluetooth_is_enabled);
+                    ShowBluetoothConfirmationDialog(GetString(Resource.String.bluetooth_title), message);
+                }
+            }
+            else if (e.ResultCode == (int)Result.Canceled)
+            {
+                if (bluetoothAdapter!.State == State.Off)
+                {
+                    message = GetString(Resource.String.bluetooth_not_enabled);
+                    ShowBluetoothConfirmationDialog(GetString(Resource.String.bluetooth_title), message);
+                }
+                
+            }
+        }
         #endregion
     }
+
+
 }
 
 #region OnCreate - Replaced - left here because of notes etc
@@ -481,6 +567,20 @@ namespace com.companyname.navigationgraph7net7
 //        SetLeftMargin(v, navigationBarsInsets);
 
 //    return insets;
+//}
+#endregion
+
+#region ShowSubscriptionInfoDialog - Moved from the MainActivity to HomeFragment.
+//private void ShowSubscriptionInfoDialog(string title, string explanation)
+//{
+//    string tag = "SubscriptionInfoDialogFragment";
+//    AndroidX.Fragment.App.FragmentManager? fm = SupportFragmentManager!;
+//    if (fm != null && !fm.IsDestroyed)
+//    {
+//        AndroidX.Fragment.App.Fragment? fragment = fm.FindFragmentByTag(tag);
+//        if (fragment == null)
+//            BasicDialogFragment.NewInstance(title, explanation).Show(fm, tag);
+//    }
 //}
 #endregion
 

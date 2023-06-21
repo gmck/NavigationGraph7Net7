@@ -30,6 +30,7 @@
         //    PopExitAnimation = Resource.Animation.fragment_fade_exit;
         //}
 
+        // This is what we have been using - now trying out Fader3
         public static void Fader2()
         {
             EnterAnimation = Resource.Animation.abc_grow_fade_in_from_bottom;
@@ -37,5 +38,14 @@
             PopEnterAnimation = Resource.Animation.nav_default_pop_enter_anim;
             PopExitAnimation = Resource.Animation.nav_default_pop_exit_anim;
         }
+
+        public static void Fader3()
+        {
+            EnterAnimation = Resource.Animation.m3_motion_fade_enter;
+            ExitAnimation = Resource.Animation.m3_motion_fade_exit;
+            PopEnterAnimation = Resource.Animation.m3_motion_fade_enter;
+            PopExitAnimation = Resource.Animation.m3_motion_fade_exit;
+        }
+
     }
 }

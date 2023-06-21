@@ -9,13 +9,13 @@ using Google.Android.Material.MaterialSwitch;
 
 namespace com.companyname.navigationgraph7net7.Fragments
 {
-    public class WidgetsFragment : Fragment, IOnApplyWindowInsetsListener
+    public class MaterialWidgetsFragment : Fragment, IOnApplyWindowInsetsListener
     {
         private NavFragmentOnBackPressedCallback? onBackPressedCallback;
         private ConstraintLayout? widgetsConstraintLayout;
         private int initialPaddingBottom;
 
-        public WidgetsFragment( ) { }
+        public MaterialWidgetsFragment( ) { }
 
         #region OnCreateView
         public override View OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
@@ -41,7 +41,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
             base.OnResume();
            
             onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, true);
-            RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
+            //RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
         }
         #endregion
 
@@ -61,7 +61,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
             NavController navController = Navigation.FindNavController(Activity!, Resource.Id.nav_host);
 
             // Navigate back to the HomeFragment
-            navController.PopBackStack(Resource.Id.home_fragment, false);
+            //navController.PopBackStack(Resource.Id.home_fragment, false);
             navController.Navigate(Resource.Id.home_fragment, null, navOptions);
 
         }

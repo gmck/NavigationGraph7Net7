@@ -1,13 +1,18 @@
-﻿using Android.Content;
+﻿using Android;
+using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using AndroidX.Core.App;
 using AndroidX.Core.View;
 using AndroidX.Fragment.App;
 using AndroidX.Navigation;
+using AndroidX.Navigation.Fragment;
 using AndroidX.Navigation.UI;
 using AndroidX.Preference;
 using com.companyname.navigationgraph7net7.Dialogs;
+using System.Linq;
 
 namespace com.companyname.navigationgraph7net7.Fragments
 {
@@ -25,11 +30,19 @@ namespace com.companyname.navigationgraph7net7.Fragments
     // See Menu Deprecations when upgrading AndroidX.Navigation.Fragment to 2.5.1 #611 Sept 2nd 2022 - Fixed May 25, 2023
     public class HomeFragment : Fragment, IMenuProvider
     {
+        private const int BLUETOOTH_PERMISSIONS_REQUEST_CODE = 9999;
+
         private bool animateFragments;
-        
-        // Just a test to see if I could replicate behaviour of the deprecated OnPrepareOptionsMenu. I doubt that this is the correct way to disable a menuItem - but it appears to work
         private bool enableSubscriptionInfoMenuItem;
 
+        //private NavFragmentOnBackPressedCallback? onBackPressedCallback;
+
+        //private ActivityResultLauncher? activityResultLauncher;
+        //private ActivityResultLauncher<string[]> bluetoothPermissionLauncher;
+        
+        //private ActivityResultLauncher? bluetoothPermissionLauncher;
+        //private ActivityResultCallback
+        
         public HomeFragment() { }
 
         #region OnCreateView
@@ -40,7 +53,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
             View? view = inflater.Inflate(Resource.Layout.fragment_home, container, false);
             TextView? textView = view!.FindViewById<TextView>(Resource.Id.text_home);
             textView!.Text = "This is home fragment";
-
+            
             return view;
         }
         #endregion
@@ -57,13 +70,39 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
             // New with release of Xamarin.AndroidX.Navigation.Fragment 2.5.1 or more accurately AndroidX.Core.View
             // see https://medium.com/tech-takeaways/how-to-migrate-the-deprecated-oncreateoptionsmenu-b59635d9fe10
-            IMenuHost menuHost = RequireActivity();
-            menuHost.AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
+            //IMenuHost menuHost = RequireActivity();
+            //menuHost.AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
 
             // A more concise version of the above 
-            //(RequireActivity() as IMenuHost).AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
-            
+            (RequireActivity() as IMenuHost).AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
+
+
+            //bluetoothPermissionLauncher = RegisterForActivityResult(new ActivityResultContracts.RequestPermission(), permissionGranted =>
+            //{
+            //    if ((bool)permissionGranted)
+            //    {
+            //        // Permission granted, perform necessary actions
+            //        Navigation.FindNavController(Activity!, Resource.Id.nav_host).Navigate(Resource.Id.settingsFragment);
+            //    }
+            //    else
+            //    {
+            //        // Permission denied, handle accordingly
+            //    }
+            //});
+
+            //ActivityResultLauncher<string[]> resultLauncher = RegisterForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), (result) =>
+            //{
+            //    // Handle the result here.
+            //});
+
+            //ActivityResultLauncher<MultiplePermissionRequest> resultLauncher = RegisterForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), (result) =>
+            //{
+            //    // Handle the result here.
+            //});
+
         }
+
+
         #endregion
 
         #region OnCreateMenu
@@ -86,7 +125,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
         public bool OnMenuItemSelected(IMenuItem menuItem)
         {
             if (!animateFragments)
-                AnimationResource.Fader2();
+                AnimationResource.Fader3();
             else
                 AnimationResource.Slider();
 
@@ -103,8 +142,40 @@ namespace com.companyname.navigationgraph7net7.Fragments
             switch (menuItem.ItemId)
             {
                 case Resource.Id.action_settings:
-                    Navigation.FindNavController(Activity!, Resource.Id.nav_host).Navigate(Resource.Id.settingsFragment, null, navOptions);
+
+                    //Requirement for Android 12+ before Navigatating to the SettingsFragment from the HomeFragment, we need the following Permissions Manifest.Permission.BluetoothConnect and Manifest.Permission.BluetoothScan. Therefore we need an something like activityResultLauncher = RegisterForActivityResult(new ActivityResultContracts.RequestMultiplePermissions())
+                    //we need something like the followowing
+                   
+                    //if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
+                    //{
+                    //    if (BluetoothPermissionsGranted())
+                    //        Navigation.FindNavController(Activity!, Resource.Id.nav_host).Navigate(Resource.Id.settingsFragment, null, navOptions);
+                    //    else
+                    //        bluetoothPermissionLauncher!.Launch(new string[] { Android.Manifest.Permission.BluetoothConnect, Android.Manifest.Permission.BluetoothScan });
+                    //}
+                    //else
+                    //    Navigation.FindNavController(Activity!, Resource.Id.nav_host).Navigate(Resource.Id.settingsFragment, null, navOptions);
+
+
+                    // This works for now but it is not the correct way to do it. The correct way is to use the activityResultLauncher = RegisterForActivityResult(new ActivityResultContracts.RequestMultiplePermissions())
+                    // and then use the bluetoothPermissionLauncher.Launch(new string[] { Manifest.Permission.BluetoothConnect, Manifest.Permission.BluetoothScan });
+
+                    // When the app starts for the very first time, the user wont have already given the Bluetooth permissions, therefore permissionsGranted will be false and we will have to request permissions from here.
+                    // When the request Permissions dialog appears, the user answer is received (collected) in the MainActivity's OnRequestPermissionsResult method. From there if the user has granted permissions
+                    // the code there will navigate directly to the SettingsFragment. In all other instances permissionsGranted will be true and therefore we will navigate to the SettingsFragment from here. 
+
+                    if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
+                    {
+                        if (BluetoothPermissionsGranted())
+                            Navigation.FindNavController(Activity!, Resource.Id.nav_host).Navigate(Resource.Id.settingsFragment, null, navOptions);
+                        else
+                            ActivityCompat.RequestPermissions(Activity!, new string[] { Manifest.Permission.BluetoothConnect, Manifest.Permission.BluetoothScan }, BLUETOOTH_PERMISSIONS_REQUEST_CODE);
+                    }
+                    else
+                        Navigation.FindNavController(Activity!, Resource.Id.nav_host).Navigate(Resource.Id.settingsFragment, null, navOptions);
+
                     return true;
+
 
                 case Resource.Id.action_logfiles:
                     Navigation.FindNavController(Activity!, Resource.Id.nav_host).Navigate(Resource.Id.maintenance_file_selection_fragment, null, navOptions);
@@ -118,6 +189,49 @@ namespace com.companyname.navigationgraph7net7.Fragments
                 default:
                     return NavigationUI.OnNavDestinationSelected(menuItem, Navigation.FindNavController(Activity!, Resource.Id.nav_host));
             }
+        }
+        #endregion
+
+        #region OnResume
+        public override void OnResume()
+        {
+            base.OnResume();
+            //onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, true);
+            //RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
+        }
+        #endregion
+
+        #region OnDestroy
+        //public override void OnDestroy()
+        //{
+        //    base.OnDestroy();
+        //    //onBackPressedCallback?.Remove();
+        //}
+        #endregion
+
+        #region HandleOnBackPressed
+        public void HandleOnBackPressed()
+        {
+            //onBackPressedCallback!.Enabled = false;
+
+            //NavController navController = Navigation.FindNavController(Activity!, Resource.Id.nav_host);
+
+            //if (BackStackCount() == 0)
+            //    RequireActivity().Finish();
+
+            //Activity!.Finish();
+
+            //navController.NavigateUp();
+            //navController.PopBackStack(Resource.Id.home_fragment, true);
+
+        }
+        #endregion
+
+        #region BluetoothPermissionsGranted
+        private bool BluetoothPermissionsGranted()
+        {
+            string[] permissions = { Manifest.Permission.BluetoothConnect, Manifest.Permission.BluetoothScan };
+            return permissions.All(permission => AndroidX.Core.Content.ContextCompat.CheckSelfPermission(Context!, permission) == Permission.Granted);
         }
         #endregion
 
@@ -135,13 +249,18 @@ namespace com.companyname.navigationgraph7net7.Fragments
         }
         #endregion
 
-        #region not used - but keep as reference
-        //public int BackStackCount()
-        //{
-        //    NavHostFragment? navHostFragment = SupportFragmentManager.FindFragmentById(Resource.Id.nav_host) as NavHostFragment;
-        //    int backStackEntryCount = navHostFragment!.ChildFragmentManager.BackStackEntryCount;
-        //    return backStackEntryCount;
-        //}
+        #region BackStackCount - not used, keep as a reference
+        public int BackStackCount() 
+        {
+            // if backStackCount is 0, which it is here in the HomeFragment then we are at the HomeFragment and navHostFragment.ChildFragmentManager.Fragments.Count is 1.
+            // PopBackStack() will attempt to go back one step in your backstack, and will not do anything if there is no backstack entry. Therefore no point in calling it if backStackCount is 0.
+            // Also popBackStack(null, FragmentManager.PopBackStackInclusive) will clear the entire backstack, and will not do anything if there is no backstack entry.
+            NavHostFragment? navHostFragment = Activity!.SupportFragmentManager.FindFragmentById(Resource.Id.nav_host) as NavHostFragment;
+            int backStackCount = navHostFragment!.ChildFragmentManager.BackStackEntryCount;
+            return backStackCount;
+        }
         #endregion
     }
+
+
 }

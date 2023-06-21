@@ -112,7 +112,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
             //// The activity also removes registered callbacks when their associated LifecycleOwner is destroyed, which prevents memory leaks and makes it suitable for use in fragments or other lifecycle owners
             //// that have a shorter lifetime than the activity.
             //// Note: this rule out using OnAttach(Context context) as the view hasn't been created yet.
-            RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
+            //RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
         }
         #endregion
 
@@ -217,7 +217,10 @@ namespace com.companyname.navigationgraph7net7.Fragments
             onBackPressedCallback!.Enabled = false;
 
             NavController navController = Navigation.FindNavController(Activity!, Resource.Id.nav_host);
-
+            
+            // Because we have .SetPopUpTo(Resource.Id.home_fragment, false, true) in NavFragmentOnBackPressedCallback we need to override it here,
+            // but testing shows we don't need the extra Navigate call unless we want NavOptions
+            
             // Navigate back to the SlideShowFragment
             navController.PopBackStack(Resource.Id.slideshow_fragment, false);
             navController.Navigate(Resource.Id.slideshow_fragment, null, navOptions);

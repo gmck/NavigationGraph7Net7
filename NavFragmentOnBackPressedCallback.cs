@@ -33,7 +33,7 @@ namespace com.companyname.navigationgraph7net7
         public override void HandleOnBackPressed()
         {
             if (!animateFragments)
-                AnimationResource.Fader2();
+                AnimationResource.Fader3();
             else
                 AnimationResource.Slider();
 
@@ -43,6 +43,7 @@ namespace com.companyname.navigationgraph7net7
                     .SetExitAnim(AnimationResource.ExitAnimation)
                     .SetPopEnterAnim(AnimationResource.PopEnterAnimation)
                     .SetPopExitAnim(AnimationResource.PopExitAnimation)
+                    //.SetPopUpTo(Resource.Id.home_fragment, false, true)             // Forgot to add this earlier, which caused incorrect popping of the fragments of the NavigationView 
                     .Build();
 
             Log.Debug(logTag, "Navigate back - Enter Animation " + navOptions.EnterAnim.ToString());
@@ -50,24 +51,34 @@ namespace com.companyname.navigationgraph7net7
             Log.Debug(logTag, "Navigate back - Pop Enter Animation " + navOptions.PopEnterAnim.ToString());
             Log.Debug(logTag, "Navigate back - Pop Exit Animation " + navOptions.PopExitAnim.ToString());
 
-            // Mixture of top level and non top level fragments
-            if (fragment is GalleryFragment galleryFragment)
-                galleryFragment.HandleOnBackPressed(navOptions);
-            else if (fragment is SlideshowFragment slideshowFragment)
-                slideshowFragment.HandleOnBackPressed(navOptions);
-            else if (fragment is LeaderboardPagerFragment leaderboardPagerFragment)
-                leaderboardPagerFragment.HandleOnBackPressed(navOptions);
-            else if (fragment is RegisterFragment registerFragment)
-                registerFragment.HandleOnBackPressed(navOptions);
-            else if (fragment is RaceResultFragment raceResultFragment)
-                raceResultFragment.HandleOnBackPressed(navOptions);
-            else if (fragment is WidgetsFragment widgetsFragment)
-                widgetsFragment.HandleOnBackPressed(navOptions);
-            else if (fragment is PurchaseFragment purchaseFragment)
-                purchaseFragment.HandleOnBackPressed(navOptions);
-            else if (fragment is MaintenanceFileSelectionFragment maintenanceFileSelectionFragment)
-                maintenanceFileSelectionFragment.HandleOnBackPressed(navOptions);
+            //Mixture of top level and non top level fragments
+            //if (fragment is HomeFragment homeFragment)
+            //    homeFragment.HandleOnBackPressed();
+            //if (fragment is GalleryFragment galleryFragment)
+            //    galleryFragment.HandleOnBackPressed(navOptions);
+            //else if (fragment is SlideshowFragment slideshowFragment)
+            //    slideshowFragment.HandleOnBackPressed(navOptions);
+            //else if (fragment is LeaderboardPagerFragment leaderboardPagerFragment)
+            //    leaderboardPagerFragment.HandleOnBackPressed(navOptions);
+            //else if (fragment is RegisterFragment registerFragment)
+            //    registerFragment.HandleOnBackPressed(navOptions);
+            //else if (fragment is RaceResultFragment raceResultFragment)
+            //    raceResultFragment.HandleOnBackPressed(navOptions);
+            //else if (fragment is MaterialWidgetsFragment materialWidgetsFragment)
+            //    materialWidgetsFragment.HandleOnBackPressed(navOptions);
+            //else if (fragment is PurchaseFragment purchaseFragment)
+            //    purchaseFragment.HandleOnBackPressed(navOptions);
+            //else if (fragment is MaintenanceFileSelectionFragment maintenanceFileSelectionFragment)
+            //    maintenanceFileSelectionFragment.HandleOnBackPressed(navOptions);
+            //else if (fragment is SettingsFragment settingsFragment)
+            //    settingsFragment.HandleOnBackPressed(navOptions);
 
+            //if (fragment is LeaderboardPagerFragment leaderboardPagerFragment)
+            //    leaderboardPagerFragment.HandleOnBackPressed(navOptions);
+            //else if (fragment is RegisterFragment registerFragment)
+            //    registerFragment.HandleOnBackPressed(navOptions);
+            //else if (fragment is RaceResultFragment raceResultFragment)
+            //    raceResultFragment.HandleOnBackPressed(navOptions);
         }
     } 
 }

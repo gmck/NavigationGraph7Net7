@@ -5,6 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@+id/home_fragment">
 
+	<!--Top Destinations-->
     <fragment
         android:id="@+id/home_fragment"
         android:name="com.companyname.navigationgraph7net7.fragments.HomeFragment"
@@ -27,7 +28,7 @@
 
 	<fragment
         android:id="@+id/widgets_fragment"
-        android:name="com.companyname.navigationgraph7net7.fragments.WidgetsFragment"
+        android:name="com.companyname.navigationgraph7net7.fragments.MaterialWidgetsFragment"
 		android:label="@string/menu_widgets"
         tools:layout="@layout/fragment_widgets" />
 
@@ -36,6 +37,7 @@
         android:name="com.companyname.navigationgraph7net7.fragments.PurchaseFragment"
 		android:label="@string/menu_subscription_purchase"
         tools:layout="@layout/fragment_purchase" />
+	<!--Top Destinations-->
 	
 	<!--not a top destination-->
 	<fragment
@@ -64,6 +66,7 @@
 		android:label="Register"
         tools:layout="@layout/fragment_register"/>
 
+	<!--not a top destination-->
 	<fragment
 		android:id="@+id/race_result_fragment"
 		android:name="com.companyname.navigationgraph7net7.fragments.RaceResultFragment"

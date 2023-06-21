@@ -35,7 +35,7 @@ namespace com.companyname.navigationgraph7net7.Dialogs
             TextView? textViewExplanation = view!.FindViewById<TextView>(Resource.Id.textView_explanation);
             textViewExplanation!.Text = Arguments!.GetString("Message");
 
-            MaterialAlertDialogBuilder builder = new(Activity!);    //, Resource.Style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Centered);
+            MaterialAlertDialogBuilder builder = new(Activity!);    
             builder.SetTitle(Arguments.GetString("Title"));
             builder.SetPositiveButton(Android.Resource.String.Ok, (sender, args) => { Dismiss(); });
             builder.SetView(view);

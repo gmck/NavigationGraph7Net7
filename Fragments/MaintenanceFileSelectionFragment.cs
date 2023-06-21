@@ -23,7 +23,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
         internal TextView? textViewFileType;
 
         internal Uri? uriSelectedFileName = null;
-        internal ViewAction viewAction;
+        internal ViewAction viewAction = ViewAction.None;
         internal FileType fileType;
         internal ProgressBar? progressbar;
         internal bool showFileMaintenanceExplanationDialog;
@@ -236,7 +236,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
             showFileMaintenanceExplanationDialog = sharedPreferences!.GetBoolean("showFileMaintenanceExplanationDialog", true);
 
             onBackPressedCallback = new NavFragmentOnBackPressedCallback(this, true);
-            RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
+            //RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
 
             // Clear the adapter and then rebuild it from the global list
             //fileMaintenanceItemsAdapter.Clear();
@@ -281,7 +281,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
         {
             onBackPressedCallback!.Enabled = false;
             NavController navController = Navigation.FindNavController(Activity!, Resource.Id.nav_host);
-            navController.PopBackStack(Resource.Id.home_fragment, false);
+            //navController.PopBackStack(Resource.Id.home_fragment, false);
             navController.Navigate(Resource.Id.home_fragment, null, navOptions);
         }
         #endregion

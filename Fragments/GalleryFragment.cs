@@ -33,7 +33,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
             //// The activity also removes registered callbacks when their associated LifecycleOwner is destroyed, which prevents memory leaks and makes it suitable for use in fragments or other lifecycle owners
             //// that have a shorter lifetime than the activity.
             //// Note: this rule out using OnAttach(Context context) as the view hasn't been created yet.
-            RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
+            //RequireActivity().OnBackPressedDispatcher.AddCallback(ViewLifecycleOwner, onBackPressedCallback);
         }
         #endregion
 
@@ -53,10 +53,12 @@ namespace com.companyname.navigationgraph7net7.Fragments
             NavController navController = Navigation.FindNavController(Activity!, Resource.Id.nav_host);
 
             // Navigate back to the HomeFragment
-            navController.PopBackStack(Resource.Id.home_fragment, false);
+            //navController.PopBackStack(Resource.Id.home_fragment, false);  // We need this - however do we if we already have the equivelent .SetPopUpTo(Resource.Id.home_fragment, false, true) in NavFragmentOnBackPressedCallback
+            //Answer is we don't need it here if we already have it in NavFragmentOnBackPressedCallback. Here we just Navigate. 
             navController.Navigate(Resource.Id.home_fragment, null, navOptions);
         }
         #endregion
 
+       
     }
 }

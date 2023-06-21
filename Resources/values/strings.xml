@@ -74,6 +74,19 @@
 	</string>
 	<!--Subscription DialogFragment-->
 
+	<!--Deliberately shortend this message-->
+	<string name="subscription_explanation_text_short">
+		Google Play continues to add and enhance features to Subscription Purchases. They have added features such as Account Hold, Subscription Pause, Subscription Restore and the flexability to be able to Upgrade
+		or Downgrade your subscription at any time.
+		\n\nWe provide the subscription state information for each subscription.
+		Once you have made an initial subscription purchase, a subsription record will appear here below the heading Subscriptions.
+		\n\nWhen you tap on a subscription record a new window will open, showing the current subscription status information directly from Google Play\'s servers.
+		It includes details such as your Google Order Number, the Payment and Acknowledgement States of your subscription, Starting Date, Expiration Date, Auto-Renew Date and whether the Subscription has been cancelled
+		either by the system or by the subscriber.
+		\n\nGoogle servers store Subscription date information in UTC format, we convert those dates to your local datetime format.
+		\n\nFor a full discussion re the latest Google Play Subscription features and an example screenshot please refer to our User Guide.
+	</string>
+	
 	<string name="sample_1_fragment">This is the Sample 1 fragment</string>
 	<string name="sample_2_fragment">This is the Sample 2 fragment</string>
 	<string name="sample_3_fragment">This is the Sample 3 fragment</string>
@@ -89,18 +102,7 @@
 	<string name="toast_message">You selected the Register menu item.</string>
 	<string name="dont_show_again">Don\'t show this message again</string>
 	
-	<!--Deliberately shortend this message-->
-	<string name="subscription_explanation_text_short">
-		Google Play continues to add and enhance features to Subscription Purchases. They have added features such as Account Hold, Subscription Pause, Subscription Restore and the flexability to be able to Upgrade
-		or Downgrade your subscription at any time.
-		\n\nWe provide the subscription state information for each subscription.
-		Once you have made an initial subscription purchase, a subsription record will appear here below the heading Subscriptions.
-		\n\nWhen you tap on a subscription record a new window will open, showing the current subscription status information directly from Google Play\'s servers.
-		It includes details such as your Google Order Number, the Payment and Acknowledgement States of your subscription, Starting Date, Expiration Date, Auto-Renew Date and whether the Subscription has been cancelled
-		either by the system or by the subscriber.
-		\n\nGoogle servers store Subscription date information in UTC format, we convert those dates to your local datetime format.
-		\n\nFor a full discussion re the latest Google Play Subscription features and an example screenshot please refer to our User Guide.
-	</string>
+	
 	
 	<string name="diagnostic_files">Diagnostic Files</string>
 	<string name="data_files">Data Files</string>
@@ -129,5 +131,23 @@
 	<string name="permission_for_files">You selected the Get Permissions menu Item</string>
 	<string name="file_maintenance">List of diagnostic files</string>
 
+	<!--ShowMissingPermissionDialog-->
+	<string name="missing_permission_title">Bluetooth Connection Permission Denied</string>
+	<string name="missing_permission_explanation">
+		Android 12 and above require the user to grant the special permission Bluetooth Connection to connect to Bluetooth devices.
+		\n\nThis permission has been previously denied.
+		\n\nTo correct this situation, locate our app in the app drawer and long press on the app icon and then choose App Info. Under the Permissions heading it will read No permissions granted.
+		\n\nTap on the heading Permissions and a new window will open. Under the heading Not Allowed it will read Nearby Devices. Tap on Nearby Devices and another window will open with the Don\'t allow radio button
+		already selected.
+		\n\nSelect the radio button Allow, then use the back key or back gesture to exit back to the app draw and restart the app.
+		\n\nIf your Bluetooth radio is off in Quick Settings, the app will then prompt you to turn it on.
+	</string>
+	<!--ShowMissingPermissionDialog-->
+
+	<!--BluetoothConfirmationDialogFragment -->
+	<string name="bluetooth_title">Bluetooth Connection</string>
+	<string name ="bluetooth_is_enabled">Bluetooth is now enabled. A connection to your Bluetooth device can now be made.</string>
+	<string name ="bluetooth_not_enabled">Bluetooth is not enabled. A connection can not be made to your Bluetooth device until Bluetooth is enabled.</string>
+	<!--BluetoothConfirmationDialogFragment -->
 	
 </resources>
