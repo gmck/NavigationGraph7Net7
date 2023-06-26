@@ -115,6 +115,8 @@ namespace com.companyname.navigationgraph7net7.Fragments
             // The only way to permanently remove a folder is with a file explorer app like X-plore, which we dont recommend for users.
             // If we reset the folder as above without the use of X-plore, the old folder name will appear. It can be hidden by reselecting Documents (the root} and a new folder created.
 
+            // Note - Even though there is no code here in this example. To invalide the menu we need to call (RequireActivity() as IMenuHost).InvalidateMenu();
+
             ISharedPreferences? sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(Activity!);
             folderUri = sharedPreferences!.GetString("FolderUri", string.Empty);
 

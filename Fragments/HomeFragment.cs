@@ -136,7 +136,7 @@ namespace com.companyname.navigationgraph7net7.Fragments
                     .SetPopEnterAnim(AnimationResource.PopEnterAnimation)
                     .SetPopExitAnim(AnimationResource.PopExitAnimation)
                     .SetPopUpTo(Resource.Id.home_fragment, false, true)     // Inclusive false, saveState true.
-                    .SetRestoreState(true)
+                    //.SetRestoreState(true)
                     .Build();
 
             switch (menuItem.ItemId)
