@@ -187,7 +187,8 @@ namespace com.companyname.navigationgraph7net7.Fragments
 
                 // Must have this default condition - otherwise we lose the ability to open the NavigationMenu in the MainActivity via the hamburger icon - tapping on it doesn't display the NavigationView
                 default:
-                    return NavigationUI.OnNavDestinationSelected(menuItem, Navigation.FindNavController(Activity!, Resource.Id.nav_host));
+                    return false;
+                    //return NavigationUI.OnNavDestinationSelected(menuItem, Navigation.FindNavController(Activity!, Resource.Id.nav_host));
             }
         }
         #endregion

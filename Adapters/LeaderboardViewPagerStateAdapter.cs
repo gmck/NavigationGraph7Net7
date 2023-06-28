@@ -23,6 +23,7 @@ namespace com.companyname.navigationgraph7net7.Adapters
 
         // implement inherited abstract member
         public override Fragment CreateFragment(int position) =>
+
             // Could just replace with new SampleFragmant1() etc rather than using GetInstance. Using GetInstance allows you to optionally attach a bundle and supply the parameter int position if required to the fragment.
             // All fragment constructors are required to be parameterless, as the adapter can call the constructor any time while paging during the cycle of creating and destroying the fragment.
             // Note we are always creating a new fragment. Do not pass a fragment list of previously created fragments and just return fragmentList[position] as was done with GetItem in ViewPager.

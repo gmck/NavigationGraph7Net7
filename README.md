@@ -1,4 +1,9 @@
 # NavigationGraph7Net7 : net7.0-android33
+
+**June 29, 2023**
+
+Commented out return NavigationUI.OnNavDestinationSelected(menuItem, Navigation.FindNavController(Activity!, Resource.Id.nav_host)); in OnMenuItemSelected(IMenuItem menuItem) of the HomeFragment and replaced with just return false. At one stage the commented code was required for the Hamburger menu to work, but it now works without it.  
+
 **June 26, 2023**
 
 Just added a comment in MaintenanceFileSelectionFragment.cs to explain how to invalidate a menu with the following ```(RequireActivity() as IMenuHost).InvalidateMenu()``` since there is no code example in that fragment.
