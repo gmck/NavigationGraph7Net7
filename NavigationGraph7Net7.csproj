@@ -15,6 +15,9 @@
 		<EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 		<AndroidLinkTool>r8</AndroidLinkTool>
 	</PropertyGroup>
+	<ItemGroup>
+	  <AndroidResource Remove="Resources\values-night\colors.xml" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Remove="Dialogs\BluetoothConfirmationDialogFragment.cs" />
@@ -109,7 +112,6 @@
 		<PackageReference Include="Xamarin.AndroidX.Navigation.Fragment" Version="2.6.0" />
 		<PackageReference Include="Xamarin.AndroidX.Navigation.UI" Version="2.6.0" />
 		<PackageReference Include="Xamarin.AndroidX.Preference" Version="1.2.0.6" />
-		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.9.0.1" />
 		<PackageReference Include="Xamarin.AndroidX.Annotation" Version="1.6.0.3" />
 	</ItemGroup>
 </Project>

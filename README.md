@@ -1,4 +1,13 @@
 # NavigationGraph7Net7 : net7.0-android33
+**July 13, 2023**
+
+No real changes in this version, but I just wanted to add a comment about the package Xamarin.Google.Android.Material. 
+
+As I was converting my main app (Material 2) to use Material 3, I found that I didn't need to include the above package, when I was expecting that I would. 
+
+This might not be news to you, but when checking out what seemed to be an anomoly, I found that the package was already a depemdemcy of the Xamarin.AndroidX.NavigationUI package. 
+
+I can't remember if that has always been the case, but I thought I'd mention it just in case you were wondering why I have deleted it in this update.
 
 **June 29, 2023**
 

@@ -71,6 +71,8 @@ namespace com.companyname.navigationgraph7net7
         // The following fragments are immersive fragments - see SetShortEdgesIfRequired
         private List<int>? immersiveFragmentsDestinationIds;
 
+        
+
         #region OnCreate
         protected override void OnCreate(Bundle? savedInstanceState)
         {
@@ -110,7 +112,7 @@ namespace com.companyname.navigationgraph7net7
 
             ViewCompat.SetOnApplyWindowInsetsListener(toolbar!, this);
             ViewCompat.SetOnApplyWindowInsetsListener(drawerLayout!, this);
-
+        
             // Add the DestinationChanged listener
             navController.AddOnDestinationChangedListener(this);
 
@@ -144,6 +146,7 @@ namespace com.companyname.navigationgraph7net7
             }
             else if (v is DrawerLayout)
                 SetLeftMargin(v, navigationBarsInsets);
+                
 
             return insets;
         }
@@ -174,6 +177,7 @@ namespace com.companyname.navigationgraph7net7
         }
         // Make a single function for setting Margins
         #endregion
+
 
         #region OnSupportNavigationUp
         public override bool OnSupportNavigateUp()

@@ -37,8 +37,6 @@
 		<item name="colorSurfaceInverse">@color/red_bmw_light_inverseSurface</item>
 		<item name="colorPrimaryInverse">@color/red_bmw_light_inversePrimary</item>
 
-		
-
 	</style>
 
 
@@ -58,7 +56,7 @@
 		<item name="materialAlertDialogTheme">@style/AlertDialogRoundedCornersTheme</item>
 
 	</style>
-	<!--END OF RED BMW THEME-->
+	<!--END OF RED BMW LITE THEME-->
 
 
 	<!--BLUE AUDI LITE THEME-->

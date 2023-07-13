@@ -2,32 +2,10 @@
 <resources>
 
 
-	<!--Material2 RedBmw light theme colors-->
-	<color name="red_700">#d32f2f</color>
-	<color name="red_700_dark">#9a0007</color>
-	<color name="red_700_light">#ff6659</color>
-
-	<!--Material2 BlueAudi light theme colors-->
-	<color name="blue_700">#0070d0</color>
-	<color name="blue_700_dark">#004690</color>
-	<color name="blue_700_light">#5d9eff</color>
-
-	<!--Material2 GreenBmw light theme colors-->
-	<color name="green_700">#00b058</color>
-	<color name="green_700_dark">#007f2c</color>
-	<color name="green_700_light">#57e386</color>
-
 	<!--Non color theme specific colors-->
-	<color name="transparent_black">#121212</color>
 	<color name="black">#000000</color>
 	<color name="white">#FFFFFF</color>
-	<color name="black_600">#757575</color>
-
-	<color name="error_light">#b00020</color>
-	<color name="error_dark">#cf6679</color>
-
-
-
+	<!--Non color theme specific colors-->
 
 	<!--Red_BMW-->
 
@@ -297,7 +275,7 @@
 
 	<!--Material Theme Builder Generated-->
 
-	<color name="seed">#d32f2f</color>
+	<!--<color name="seed">#d32f2f</color>
 	<color name="md_theme_light_primary">#BA1A20</color>
 	<color name="md_theme_light_onPrimary">#FFFFFF</color>
 	<color name="md_theme_light_primaryContainer">#FFDAD6</color>
@@ -357,6 +335,6 @@
 	<color name="md_theme_dark_shadow">#000000</color>
 	<color name="md_theme_dark_surfaceTint">#FFB3AC</color>
 	<color name="md_theme_dark_outlineVariant">#534342</color>
-	<color name="md_theme_dark_scrim">#000000</color>
+	<color name="md_theme_dark_scrim">#000000</color>-->
 
 </resources>
