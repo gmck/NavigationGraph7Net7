@@ -5,7 +5,7 @@ No real changes in this version, but I just wanted to add a comment about the pa
 
 As I was converting my main app (Material 2) to use Material 3, I found that I didn't need to include the above package, when I was expecting that I would. 
 
-This might not be news to you, but when checking out what seemed to be an anomoly, I found that the package was already a depemdemcy of the Xamarin.AndroidX.NavigationUI package. 
+This might not be news to you, but when checking out what seemed to be an anomaly, I found that the package was already a dependency of the Xamarin.AndroidX.NavigationUI package. 
 
 I can't remember if that has always been the case, but I thought I'd mention it just in case you were wondering why I have deleted it in this update.
 
@@ -34,7 +34,7 @@ Additionally added SetPopUpTo(Resource.Id.slideshow_fragment, false, true) to Na
 
 Effectively this now means we don't have a use for the NavFragmentOnBackPressedCallback. These changes appear to allow the same functionality as was provided by the OnBackPressedCallback. The reason for the changes is with Android 14 approaching, I'm looking for the same functionality the OnBackPressedCallback provided. However, we now know from previous experiments with the Predictive Back Gesture that the callback had to be removed from the HomeFragment in order for the Predictive Back Gesture to work. So I'm hoping that the above changes will allow the Predictive Back Gesture to work as it does in this version at least on Samsung devices. 
 
-As mentioned previously PBG stopped working on my Pixel 6 with the release of March update. Exactly the same happened with a new Pixel 7. It also displayed the PBG until it also had the March update. Google is warning developers that back navigation will be broken in their apps if they donít support this feature when itís enforced.
+As mentioned previously PBG stopped working on my Pixel 6 with the release of March update. Exactly the same happened with a new Pixel 7. It also displayed the PBG until it also had the March update. Google is warning developers that back navigation will be broken in their apps if they don‚Äôt support this feature when it‚Äôs enforced.
 
   Evidently Android14 has an OnBackAnimationCallback, but I've not seen any documentation.
 
@@ -54,21 +54,21 @@ I have added an extra fragment in this version of NavigationGraph7Net7 called Ma
 
 There are significant changes for apps with the use of the new IMenuProvider interface and the  IMenuHost interface with the release of AndroidX.Core.View in Xamarin.AndroidX.Core.
 
-I first started experimenting with IMenuProvider and IMenuHost in September 2022 and realised pretty much straight away that using them was going to cause a restructuring of the menus in my apps. My apps had always been based on Xamarinís NavigationDrawer template. So effectively you had two ways of navigating either via the Navigation Drawer or via the 3 dot menu of the MainActivity.
+I first started experimenting with IMenuProvider and IMenuHost in September 2022 and realised pretty much straight away that using them was going to cause a restructuring of the menus in my apps. My apps had always been based on Xamarin‚Äôs NavigationDrawer template. So effectively you had two ways of navigating either via the Navigation Drawer or via the 3 dot menu of the MainActivity.
 
 I used the NavigationView of the Navigation Drawer for all the fragments that related to the actual operation of the app and the 3 dot menu of the MainActivity for maintenance-type features, e.g. SettingsFragment, GoogleSignInFragment,  Purchase a SubscriptionFragment,  Privacy Policy Dialog, About Dialog, Help Display, Revision History dialog etc.
 
-The quirky part of that was that these fragments then automatically inherited the same 3-dot menu as every fragment of the 3-dot menu inherited that menu unless you created a new menu for a particular fragment. For instance, most of these fragments did not require a 3 dot menu, so the way around that was to then remove the MainActivityís menu using HasOptionsMenu = true in the OnCreate of those fragments and then in the OnCreateOptionsMenu immediately call menu.Clear(). 
+The quirky part of that was that these fragments then automatically inherited the same 3-dot menu as every fragment of the 3-dot menu inherited that menu unless you created a new menu for a particular fragment. For instance, most of these fragments did not require a 3 dot menu, so the way around that was to then remove the MainActivity‚Äôs menu using HasOptionsMenu = true in the OnCreate of those fragments and then in the OnCreateOptionsMenu immediately call menu.Clear(). 
 
-Therefore you repeated the same sort of code for every fragment that did not require a menu. If a fragment called from the MainActivityís 3 dot menu did require a menu, then you simply created a menu for it, but first, **you still had to call menu.Clear()** to clear the MainActivityís menu before inflating the new menu for that fragment. Hence my term ìquirkyî. 
+Therefore you repeated the same sort of code for every fragment that did not require a menu. If a fragment called from the MainActivity‚Äôs 3 dot menu did require a menu, then you simply created a menu for it, but first, **you still had to call menu.Clear()** to clear the MainActivity‚Äôs menu before inflating the new menu for that fragment. Hence my term ‚Äúquirky‚Äù. 
 
-All was fine, if not quirky, until a new version of AndroidX.Core.View arrived in September 2022, introduced via upgrading Xamarin.AndroidX.Navigation.Fragment from 2.4.2 to 2.5.1. The following methods were deprecated  OnCreateOptionsMenu, OnPrepareOptionsMenu, OnOptionsItemSelected and HasMenuOptions or more technically Javaís SetHasMenuOptions(bool). 
+All was fine, if not quirky, until a new version of AndroidX.Core.View arrived in September 2022, introduced via upgrading Xamarin.AndroidX.Navigation.Fragment from 2.4.2 to 2.5.1. The following methods were deprecated  OnCreateOptionsMenu, OnPrepareOptionsMenu, OnOptionsItemSelected and HasMenuOptions or more technically Java‚Äôs SetHasMenuOptions(bool). 
 
 These methods were replaced with the IMenuProvider interface methods OnCreateMenu, OnPrepareMenu, OnMenuItemSelected and OnMenuClosed. Unfortunately, two methods were missing from the IMenuProvider interface in the AndroidX.Core.View package, onPrepareMenu and OnMenuClosed. Fortunately, those two missing methods have now (May 2023) been added.
 
 Therefore instead of the menu belonging to the MainActivity, the equivalent menu now belongs to the StartDestination fragment as in this example the HomeFragment. There is now no 3 dot menu associated with the MainActivity.
 
-So what do you do about a fragment such as the SettingsFragment that doesnít have a menu? Answer absolutely nothing (other than remove the old menu code) and so say goodbye to the quirkiness of before.
+So what do you do about a fragment such as the SettingsFragment that doesn‚Äôt have a menu? Answer absolutely nothing (other than remove the old menu code) and so say goodbye to the quirkiness of before.
 
 The following is a quote from Ian Lake of Google from an answer on StackOverflow.
 
@@ -82,7 +82,7 @@ He then goes on to make the following three points.
 2.	By calling addMenuProvider with a Lifecycle (in this case, the Fragment view's Lifecycle - i.e., the one that only exists when the Fragment's view is on screen), then you automatically hide the menu items when your Fragment's view is destroyed (when your replace call happens) and automatically reshown when your fragment's view re-appears (i.e., when the back stack is popped).
 3.	That the fragment itself that is controlling the Lifecycle and visibility of the menu items should be the one creating and handling its own menu items. Your activity (which can add its own MenuProvider as seen in the other example) should only be adding menu items that exist for the entire Lifecycle of the activity (items that are visible on all fragments).
 
-The replacement methods are coded much the same as the original methods. The only difference is in the setup of the menu and the slight change in the method names by removing ìoptionsî. We now use the AddMenuProvider method of the IMenuHost interface. There are 3 AddMenuProvider methods. The third method is recommended for use with fragments.
+The replacement methods are coded much the same as the original methods. The only difference is in the setup of the menu and the slight change in the method names by removing ‚Äúoptions‚Äù. We now use the AddMenuProvider method of the IMenuHost interface. There are 3 AddMenuProvider methods. The third method is recommended for use with fragments.
 ```
 void AddMenuProvider(IMenuProvider p0, ILifecycleOwner p1, AndroidX.Lifecycle.Lifecycle.State p2);
 ```
@@ -92,7 +92,7 @@ and the easiest way to use it is as follows in the OnViewCreated of the fragment
 (RequireActivity() as IMenuHost).AddMenuProvider(this, ViewLifecycleOwner, AndroidX.Lifecycle.Lifecycle.State.Resumed!);
 ```
 
-A fragment with a menu shouldnít have an up button on the ActionBar. Whereas the SettingsFragment which doesnít have a menu, does have an up button. Iíve found a couple of ways of removing the up button ñ see one way the code in OnDestinationChange in the MainActivity, however, I would have thought the more appropriate choice is to remove the back button within the fragment code in OnViewCreated as in this new fragment example.
+A fragment with a menu shouldn‚Äôt have an up button on the ActionBar. Whereas the SettingsFragment which doesn‚Äôt have a menu, does have an up button. I‚Äôve found a couple of ways of removing the up button ‚Äì see one way the code in OnDestinationChange in the MainActivity, however, I would have thought the more appropriate choice is to remove the back button within the fragment code in OnViewCreated as in this new fragment example.
 
 Please note that the MaintenanceFileSelectionFragment is not meant to be complete as far as functionality as it was borrowed from one of my apps for testing purposes for the new menu code.
 
