@@ -149,5 +149,7 @@
 	<string name ="bluetooth_is_enabled">Bluetooth is now enabled. A connection to your Bluetooth device can now be made.</string>
 	<string name ="bluetooth_not_enabled">Bluetooth is not enabled. A connection can not be made to your Bluetooth device until Bluetooth is enabled.</string>
 	<!--BluetoothConfirmationDialogFragment -->
+
+	<string name="welcome_navigationgraphnet7">Welcome NavigationGraph7Net7</string>
 	
 </resources>

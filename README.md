@@ -1,4 +1,16 @@
 # NavigationGraph7Net7 : net7.0-android33
+**July 19, 2023**
+
+This was just another oddity I came across while converting my main app to Net7. 
+
+I was using a SnackBar Helper class to display a semi modal Snackbar, by extending the duration of how long the Snackbar was displayed and came across what I think is new and that is Snackbar.LengthIndefinite which makes it properly modal. It displays until it is dismissed with the OK button. The other problem I hit was that all my Snackbars where displayed with a background of Black, which made them invisible when using Dark Theme. That was fixed by replacing 
+```
+  //snackbar.View.SetBackgroundColor(new Color(color));               // Doesn't work in Material 3. 
+  snackbar.SetBackgroundTint(new Color(color));
+```
+
+Just change the showSnackBar variable in the MainActivity to true to see the Snackbar.
+
 **July 13, 2023**
 
 No real changes in this version, but I just wanted to add a comment about the package Xamarin.Google.Android.Material. 

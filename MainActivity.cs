@@ -72,6 +72,8 @@ namespace com.companyname.navigationgraph7net7
         private List<int>? immersiveFragmentsDestinationIds;
 
         
+        private readonly bool showSnackBar = true;   
+
 
         #region OnCreate
         protected override void OnCreate(Bundle? savedInstanceState)
@@ -152,6 +154,28 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
+        #region OnResume
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            if (showSnackBar)
+                ShowWelcomeMessage();
+        }
+        #endregion
+
+        #region OnDestroy
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            if (IsFinishing)
+                StopService();
+
+            Log.Debug(logTag, "OnDestroy IsFinishing is " + IsFinishing.ToString());
+        }
+        #endregion
+
         #region SetMargins
         private static void SetTopMargin(View v, AndroidX.Core.Graphics.Insets insets)
         {
@@ -177,7 +201,6 @@ namespace com.companyname.navigationgraph7net7
         }
         // Make a single function for setting Margins
         #endregion
-
 
         #region OnSupportNavigationUp
         public override bool OnSupportNavigateUp()
@@ -351,15 +374,22 @@ namespace com.companyname.navigationgraph7net7
         }
         #endregion
 
-        #region OnDestroy
-        protected override void OnDestroy()
+        #region DisplayWelcomeMessage
+        private void ShowWelcomeMessage()
         {
-            base.OnDestroy();
+            PackageManager packageManager = PackageManager!;
+            PackageInfo packageInfo; 
 
-            if (IsFinishing)
-                StopService();
+            if (OperatingSystem.IsAndroidVersionAtLeast(33))
+                packageInfo = packageManager.GetPackageInfo(PackageName!, PackageManager.PackageInfoFlags.Of(0));
+            else
+#pragma warning disable CS0618 // Type or member is obsolete
+                packageInfo = packageManager.GetPackageInfo(PackageName!, 0)!;
+#pragma warning restore CS0618 // Type or member is obsolete
 
-            Log.Debug(logTag, "OnDestroy IsFinishing is " + IsFinishing.ToString());
+            string message = GetString(Resource.String.welcome_navigationgraphnet7) + " - Version: " + packageInfo.VersionName;
+            if (showSnackBar)
+                SnackBarHelper.ShowSnackbar(navigationView!, message, 1);
         }
         #endregion
 
@@ -460,6 +490,8 @@ namespace com.companyname.navigationgraph7net7
             }
         }
         #endregion
+
+
     }
 
 
