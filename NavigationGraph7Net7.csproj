@@ -14,6 +14,8 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 		<AndroidLinkTool>r8</AndroidLinkTool>
+		<!--<PublishTrimmed>True</PublishTrimmed>
+		<TrimMode>copyused</TrimMode>-->
 	</PropertyGroup>
 	<ItemGroup>
 	  <AndroidResource Remove="Resources\values-night\colors.xml" />
